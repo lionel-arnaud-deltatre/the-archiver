@@ -1,17 +1,14 @@
 # Use an official Node.js runtime as a parent image
-FROM node:14-slim
+FROM node
 
 # Set the working directory in the container
-WORKDIR /usr/src/app
+WORKDIR /action/workspace
 
 # Copy the package.json and package-lock.json (if available)
-COPY package*.json ./
+COPY . /action/workspace
 
 # Install any necessary dependencies
 RUN npm install --only=production
-
-# Copy the rest of your action's code
-COPY . .
 
 # Specify the command to run on container startup
 ENTRYPOINT ["node", "index.js"]
