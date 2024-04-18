@@ -12,11 +12,11 @@ class StoreFolder {
   execute() {
     console.log("execute action store");
 
-    const validFolder = fs.existsSync(params.folderPath);
+    const validFolder = fs.existsSync(this.params.folderPath);
 
     console.log("params", this.params);
-    console.log(`- outputFilename: ${outputFilename}`);
-    console.log(`- validFolder: ${outputFvalidFolderilename}`);
+    console.log(`- outputFilename: ${this.outputFilename}`);
+    console.log(`- validFolder: ${validFolder}`);
 
     return;
     try {
