@@ -25,11 +25,4 @@ inputs:
 runs:
   using: "docker"
   image: "Dockerfile"
-  args:
-    - ${{ inputs.actionType }}
-    - ${{ inputs.version }}
-    - ${{ inputs.appName }}
-    - ${{ inputs.deviceType }}
-    - ${{ inputs.environment }}
-    - ${{ github.workspace }}/${{ inputs.folderPath }}
-    - ${{ github.workspace }}/${{ inputs.filePath }}
+

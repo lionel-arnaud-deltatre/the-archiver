@@ -5,22 +5,29 @@ const archiver = require('archiver');
 
 async function run() {
   try {
-    const appName = core.getInput('appName');
-    const folderPath = core.getInput('folderPath');
-    const deviceType = core.getInput('deviceType');
+    const actionType = core.getInput('actionType');
     const version = core.getInput('version');
-
+    const appName = core.getInput('appName');
+    const deviceType = core.getInput('deviceType');
+    const environment = core.getInput('environment');
+    const folderPath = core.getInput('folderPath');
+    const filePath = core.getInput('filePath');
+    
     const outputFilename = `${appName}_${deviceType}_${version}.zip`;
 
     const validFolder = fs.existsSync(folderPath);
 
-    console.log(`Upload check`);
-    console.log(`- appName: ${appName}`);
-    console.log(`- folderPath: ${folderPath} (valid: ${validFolder})`);
-    console.log(`- deviceType: ${deviceType}`);
+    console.log(`check`);
+    console.log(`- actionType: ${actionType}`);
     console.log(`- version: ${version}`);
-    console.log(`- outputFilename: ${outputFilename}`);
+    console.log(`- appName: ${appName}`);
+    console.log(`- deviceType: ${deviceType}`);
+    console.log(`- environment: ${environment}`);
 
+    console.log(`- folderPath: ${folderPath} (valid: ${validFolder})`);
+    console.log(`- filePath: ${filePath}`);    
+    
+    console.log(`- outputFilename: ${outputFilename}`);
 
     return;
 
