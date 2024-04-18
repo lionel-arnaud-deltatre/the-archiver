@@ -1,0 +1,23 @@
+{
+  "name": "the-archiver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lionel-arnaud-deltatre/the-archiver.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lionel-arnaud-deltatre/the-archiver/issues"
+  },
+  "homepage": "https://github.com/lionel-arnaud-deltatre/the-archiver#readme",
+  "dependencies": {
+    "archiver": "^7.0.1",
+    "aws-sdk": "^2.1601.0"
+  }
+}
