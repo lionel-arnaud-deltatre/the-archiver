@@ -2,10 +2,7 @@
 FROM node:latest
 
 # Copy the package.json and package-lock.json (if available)
-COPY . .
-
-# Install any necessary dependencies
-RUN npm install --only=production
+COPY ./ /
 
 # Specify the command to run on container startup
-ENTRYPOINT ["node", "index.js"]
+ENTRYPOINT ["/start.sh"]
