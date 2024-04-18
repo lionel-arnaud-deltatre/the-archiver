@@ -31,5 +31,5 @@ runs:
     - ${{ inputs.appName }}
     - ${{ inputs.deviceType }}
     - ${{ inputs.environment }}
-    - ${{ inputs.folderPath }}
-    - ${{ inputs.filePath }}
+    - ${{ github.workspace }}/${{ inputs.folderPath }}
+    - ${{ github.workspace }}/${{ inputs.filePath }}
