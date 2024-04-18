@@ -1,0 +1,35 @@
+name: "Archiver Actions"
+description: "Archive or restore a build in the vault"
+inputs:
+  actionType:
+    description: "Action type"
+    required: true
+  version:
+    description: "Version of the build"
+    required: true
+  appName:
+    description: "Application name"
+    required: true
+  deviceType:
+    description: "Device type"
+    required: true
+  environment:
+    description: "Environment type"
+    required: true
+  folderPath:
+    description: "Path to the folder to archive/restore"
+    required: false
+  filePath:
+    description: "Path to the file to archive/restore"
+    required: false
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.actionType }}
+    - ${{ inputs.version }}
+    - ${{ inputs.appName }}
+    - ${{ inputs.deviceType }}
+    - ${{ inputs.environment }}
+    - ${{ inputs.folderPath }}
+    - ${{ inputs.filePath }}
