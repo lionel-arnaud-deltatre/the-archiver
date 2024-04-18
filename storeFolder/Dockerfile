@@ -1,11 +1,8 @@
 # Use an official Node.js runtime as a parent image
-FROM node
-
-# Set the working directory in the container
-WORKDIR /action/workspace
+FROM node:latest
 
 # Copy the package.json and package-lock.json (if available)
-COPY . /action/workspace
+COPY . .
 
 # Install any necessary dependencies
 RUN npm install --only=production
