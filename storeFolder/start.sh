@@ -1,4 +1,5 @@
 #!/bin/sh
-npm install
+# npm install
+
 ls
 node ./index.js

@@ -1,8 +1,19 @@
 # Use an official Node.js runtime as a parent image
 FROM node:latest
 
-# Copy the package.json and package-lock.json (if available)
+# Setting the working directory
+WORKDIR /usr/src/app
+
+# Copy package.json and other dependency files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy your application files
 COPY . .
 
-# Specify the command to run on container startup
+# Make sure the script is executable and set it as the entrypoint
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 ENTRYPOINT ["/start.sh"]
