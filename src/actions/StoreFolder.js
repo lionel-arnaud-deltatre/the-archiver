@@ -26,7 +26,7 @@ class StoreFolder {
 
   async uploadZipFile() {
     const s3conn = new S3Connector();
-    await s3conn.uploadFile(this.outputFilename, this.s3FolderPath);
+    await s3conn.uploadFile(this.s3FolderPath, this.outputFilename);
   }
 
   async zipFolder() {

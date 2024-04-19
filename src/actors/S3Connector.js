@@ -13,11 +13,11 @@ class S3Connector {
     this.s3 = new AWS.S3(s3Config);
   }
 
-  async uploadFile(filename) {
+  async uploadFile(remotePath, filename) {
     const bodyStream = fs.createReadStream(filename);
     const s3Params = {
       Bucket: "tv-apps-global",
-      Key: this.s3FolderPath + path.basename(filename),
+      Key: remotePath + path.basename(filename),
       Body: bodyStream,
     };
 
