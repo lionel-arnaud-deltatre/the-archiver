@@ -44,7 +44,7 @@ class StoreFolder {
       });
 
       // Listen for all archive data to be written
-      output.on("close", async function () {
+      output.on("close", async () => {
         console.log(
           `Archive created: ${outputFilename} (${archive.pointer()} total bytes)`
         );
@@ -66,7 +66,7 @@ class StoreFolder {
       });
 
       // Good practice to catch this error explicitly
-      archive.on("error", function (err) {
+      archive.on("error", (err) => {
         console.error("Archiving error:", err);
       });
 
