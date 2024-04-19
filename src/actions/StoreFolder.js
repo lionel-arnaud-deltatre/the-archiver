@@ -24,15 +24,20 @@ class StoreFolder {
     return true;
   }
 
-  async uploadZipFile() {
-    const s3conn = new S3Connector();
-    await s3conn.uploadFile(this.s3FolderPath, this.outputFilename);
-  }
-
   async zipFolder() {
     const archman = new ArchiveManager();
     await archman.zipFolder(this.params.folderPath, this.outputFilename);
   }
+
+  async uploadZipFile() {
+    const s3conn = new S3Connector();
+    const result = await s3conn.uploadFile(this.s3FolderPath, this.outputFilename);
+
+    if (result)
+    {
+      core.setOutput("remoteFolderContent", JSON.stringify(result));      
+    }
+  }  
 
   async execute() {
     console.log("execute action store");
