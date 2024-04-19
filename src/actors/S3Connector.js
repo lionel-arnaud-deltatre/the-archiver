@@ -22,12 +22,13 @@ class S3Connector {
     };
 
     try {
-        const data = await this.s3.listObjectsV2(listParams).promise();
-        console.log("S3 Objects:", data.Contents);
-        return data.Contents;  // Contains an array of objects within the specified bucket and prefix
+      const data = await this.s3.listObjectsV2(listParams).promise();
+      console.log("S3 Objects:", data.Contents);
+
+      return this.extractRecentFiles(data.Contents);
     } catch (error) {
-        console.error("Error in listing S3 Objects:", error);
-        return null;
+      console.error("Error in listing S3 Objects:", error);
+      return null;
     }
   }
   async uploadFile(remotePath, filename) {
@@ -49,6 +50,24 @@ class S3Connector {
       console.error("Upload failed:", uploadErr);
       return null;
     }
+  }
+
+  extractRecentFiles(dataArray) {
+    const extractVersion = (filename) => {
+        const start = filename.lastIndexOf('_') + 1;
+        const end = filename.lastIndexOf('.zip');
+        return filename.substring(start, end);
+      };
+
+    const transformedData = dataArray
+      .map((item) => ({
+        version: extractVersion(item.Key.split("/").pop()),
+        lastModified: item.LastModified,
+        size: item.Size,
+      }))
+      .sort((a, b) => new Date(b.LastModified) - new Date(a.LastModified));
+
+    return transformedData.slice(0, 5);
   }
 }
 
