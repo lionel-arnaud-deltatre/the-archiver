@@ -1,3 +1,4 @@
+const core = require("@actions/core");
 const AWS = require("aws-sdk");
 const fs = require("fs");
 const path = require("path");
@@ -15,10 +16,11 @@ class StoreFolder {
     console.log("execute action store");
 
     const validFolder = fs.existsSync(this.params.folderPath);
-
-    console.log("params", this.params);
-    console.log(`- outputFilename: ${this.outputFilename}`);
-    console.log(`- validFolder: ${validFolder}`);
+    if (!validFolder)
+    {
+        core.setOutput("errorMessage", "source folder is invalid");
+        core.setFailed("Action failed due to an error.");
+    }
 
     try {
       const s3Config = {
@@ -28,7 +30,7 @@ class StoreFolder {
       };
 
       // Setup S3
-      const s3 = new AWS.S3( s3Config );  
+      const s3 = new AWS.S3( s3Config );
     
       // Define paths
       const outputFilename = path.join(__dirname, this.outputFilename);

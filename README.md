@@ -1,5 +1,8 @@
 # the-archiver
 
+## why use Docker
+to avoid installing the dependencies of the action in the project repo calling the action
+
 ## set the archiver AWS keys in your project
 Because the archiver scripts are executed in the project scope, you need to add the 2 AWS keys as repository secrets:
 - ARCHIVER_AWS_ACCESS_KEY_ID

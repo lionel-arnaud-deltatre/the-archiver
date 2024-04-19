@@ -22,6 +22,9 @@ inputs:
   filePath:
     description: "Path to the file to archive/restore"
     required: false
+outputs:
+  errorMessage:
+    description: 'Error message if the action fails'
 runs:
   using: "docker"
   image: "Dockerfile"
