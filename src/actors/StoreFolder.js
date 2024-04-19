@@ -31,7 +31,7 @@ class StoreFolder {
       const s3 = new AWS.S3( s3Config );  
     
       // Define paths
-      const outputFilename = path.join(__dirname, "output.zip");
+      const outputFilename = path.join(__dirname, this.outputFilename);
 
       console.log("s3Config", s3Config);
       console.log("this.s3FolderPath", this.s3FolderPath);
