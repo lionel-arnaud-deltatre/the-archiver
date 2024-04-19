@@ -22,7 +22,7 @@ class S3Connector {
     };
 
     try {
-        const data = await s3.listObjectsV2(listParams).promise();
+        const data = await this.s3.listObjectsV2(listParams).promise();
         console.log("S3 Objects:", data.Contents);
         return data.Contents;  // Contains an array of objects within the specified bucket and prefix
     } catch (error) {
