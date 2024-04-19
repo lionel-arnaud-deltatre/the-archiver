@@ -1,5 +1,5 @@
 const core = require("@actions/core");
-const StoreFolder = require("./actors/StoreFolder");
+const StoreFolder = require("./actions/StoreFolder");
 
 async function run() {
   try {
