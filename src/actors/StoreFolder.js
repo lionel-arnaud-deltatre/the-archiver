@@ -1,5 +1,6 @@
 const AWS = require("aws-sdk");
 const fs = require("fs");
+const path = require("path");
 const archiver = require("archiver");
 
 class StoreFolder {
