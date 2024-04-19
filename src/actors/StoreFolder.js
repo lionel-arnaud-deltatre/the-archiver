@@ -21,13 +21,17 @@ class StoreFolder {
     console.log(`- validFolder: ${validFolder}`);
 
     try {
-      // Setup S3
-      const s3 = new AWS.S3({
+      const s3Config = {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
         region: "eu-west-1",
-      });
+      };
 
+      console.log("s3Config", s3Config);
+
+      // Setup S3
+      const s3 = new AWS.S3( s3Config );  
+    
       // Define paths
       const outputFilename = path.join(__dirname, "output.zip");
 
