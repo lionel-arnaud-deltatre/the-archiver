@@ -7,6 +7,7 @@ class StoreFolder {
     this.params = params;
 
     this.outputFilename = `${params.appName}_${params.deviceType}_${params.version}.zip`;
+    this.s3FolderPath = `archiver/${params.appName}/${params.deviceType}/`;
   }
 
   execute() {
@@ -18,44 +19,60 @@ class StoreFolder {
     console.log(`- outputFilename: ${this.outputFilename}`);
     console.log(`- validFolder: ${validFolder}`);
 
-    return;
     try {
       // Setup S3
       const s3 = new AWS.S3({
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-        region: awsRegion,
+        region: "eu-west-1",
       });
 
-      // Zip the directory
-      const output = fs.createWriteStream(outputFilename);
-      const archive = archiver("zip", { zlib: { level: 9 } });
+      // Define paths
+      const outputFilename = path.join(__dirname, "output.zip");
 
+      // Create a file to stream archive data to.
+      const output = fs.createWriteStream(outputFilename);
+      const archive = archiver("zip", {
+        zlib: { level: 9 }, // Sets the compression level.
+      });
+
+      // Listen for all archive data to be written
       output.on("close", async function () {
         console.log(
           `Archive created: ${outputFilename} (${archive.pointer()} total bytes)`
         );
 
         // Upload to S3
+        const bodyStream = fs.createReadStream(outputFilename);
         const s3Params = {
-          Bucket: s3Bucket,
-          Key: outputFilename,
-          Body: fs.createReadStream(outputFilename),
+          Bucket: "tv-apps-global",
+          Key: this.s3FolderPath + path.basename(outputFilename),
+          Body: bodyStream,
         };
 
-        const data = await s3.upload(s3Params).promise();
-        console.log(`File uploaded successfully at ${data.Location}`);
+        try {
+          const data = await s3.upload(s3Params).promise();
+          console.log(`File uploaded successfully at ${data.Location}`);
+        } catch (uploadErr) {
+          console.error("Upload failed:", uploadErr);
+        }
       });
 
+      // Good practice to catch this error explicitly
       archive.on("error", function (err) {
-        throw err;
+        console.error("Archiving error:", err);
       });
 
+      // Pipe archive data to the file
       archive.pipe(output);
-      archive.directory(folderPath, false);
+
+      // Append files from a sub-directory and naming it `new-subdir` within the archive
+      archive.directory(this.params.folderPath, false);
+
+      // Finalize the archive (i.e., finish appending files and finalize the archive)
       archive.finalize();
     } catch (err) {
-      console.log("error", err);
+      console.error("An error occurred:", err);
     }
   }
 }
