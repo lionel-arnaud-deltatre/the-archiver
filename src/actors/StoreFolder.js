@@ -27,13 +27,15 @@ class StoreFolder {
         region: "eu-west-1",
       };
 
-      console.log("s3Config", s3Config);
-
       // Setup S3
       const s3 = new AWS.S3( s3Config );  
     
       // Define paths
       const outputFilename = path.join(__dirname, "output.zip");
+
+      console.log("s3Config", s3Config);
+      console.log("this.s3FolderPath", this.s3FolderPath);
+      console.log("path.basename(outputFilename)", path.basename(outputFilename));
 
       // Create a file to stream archive data to.
       const output = fs.createWriteStream(outputFilename);
