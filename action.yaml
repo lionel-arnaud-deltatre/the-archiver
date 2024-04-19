@@ -3,6 +3,7 @@ description: "Archive or restore a build in the vault"
 inputs:
   actionType:
     description: "Action type"
+    type: choice
     required: true
   version:
     description: "Version of the build"
