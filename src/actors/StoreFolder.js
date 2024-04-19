@@ -20,6 +20,7 @@ class StoreFolder {
     {
         core.setOutput("errorMessage", "source folder is invalid");
         core.setFailed("Action failed due to an error.");
+        return;
     }
 
     try {
