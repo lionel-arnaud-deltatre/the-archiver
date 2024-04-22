@@ -14,6 +14,8 @@ class UpdateRBWorkflow {
         const destFile = path.join(process.env.GITHUB_WORKSPACE, `.github/workflows/rollback_${target}.yml`)
 
         console.log("copy template")
+        console.log("__dirname", __dirname)
+        console.log("process.env.GITHUB_WORKSPACE", process.env.GITHUB_WORKSPACE)
         console.log("srcFile", srcFile, fs.existsSync(srcFile))
         console.log("destFile", destFile, fs.existsSync(destFile))
         console.log("versionsString", versionsString)

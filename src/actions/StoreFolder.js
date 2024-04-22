@@ -27,15 +27,27 @@ class StoreFolder {
 
   async zipFolder() {
     const archman = new ArchiveManager();
-    await archman.zipFolder(this.params.folderPath, this.outputFilename);
+    if (fs.existsSync(this.params.folderPath))
+    {
+      await archman.zipFolder(this.params.folderPath, this.outputFilename);
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  async uploadZipFile() {
+  async uploadZipFile(zipped) {
     const s3conn = new S3Connector();
-    const updatedFiles = await s3conn.uploadFile(
-      this.s3FolderPath,
-      this.outputFilename
-    );
+    if (zipped)
+    {
+      const success = await s3conn.uploadFile(
+        this.s3FolderPath,
+        this.outputFilename
+      );
+    }
+    
+    // get updated files from bucket
+    const updatedFiles = await s3conn.getFolderFiles(this.s3FolderPath);
 
     //if (updatedFiles) {
     //  core.setOutput("remoteFolderContent", JSON.stringify(updatedFiles));
@@ -56,8 +68,8 @@ class StoreFolder {
       return;
     }
 
-    await this.zipFolder();
-    const updatedVersions = await this.uploadZipFile();
+    const zipped = await this.zipFolder();
+    const updatedVersions = await this.uploadZipFile(zipped);
 
     // add/update rollback for target
     await this.updateRollback(updatedVersions);

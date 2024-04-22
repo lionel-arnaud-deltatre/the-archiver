@@ -29,6 +29,7 @@ class S3Connector {
       return null;
     }
   }
+
   async uploadFile(remotePath, filename) {
     const bodyStream = fs.createReadStream(filename);
     const s3Params = {
@@ -40,12 +41,10 @@ class S3Connector {
     try {
       const data = await this.s3.upload(s3Params).promise();
       console.log(`File uploaded successfully at ${data.Location}`);
-
-      const newfiles = await this.getFolderFiles(remotePath);
-      return newfiles;
+      return true;
     } catch (uploadErr) {
       console.error("Upload failed:", uploadErr);
-      return null;
+      return false;
     }
   }
 
