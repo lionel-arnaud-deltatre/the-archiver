@@ -31,7 +31,7 @@ class UpdateRBWorkflow {
                 return false;
             }
     
-            const result = data.replace('<target>', target);
+            let result = data.replace('<target>', target);
             result = result.replace('<versions_placeholder>', versionsString);
     
             fs.writeFile(destFile, result, 'utf8', (err) => {
