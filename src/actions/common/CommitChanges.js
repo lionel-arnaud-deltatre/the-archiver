@@ -5,6 +5,7 @@ class CommitChanges {
 
   async commit() {
     const cmds = [
+      ["cd", process.env.GITHUB_WORKSPACE],
       ["git", "config", "--global", "user.email", '"action@github.com"'],
       ["git", "config", "--global", "user.name", '"GitHub Actions"'],
       ["git", "add", "."],
