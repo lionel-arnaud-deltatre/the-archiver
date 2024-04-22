@@ -79,7 +79,7 @@ class StoreFolder {
     if (rbFileUpdated)
     {
       await this.commitChanges();
-      console.log("changes commited, al good")
+      console.log("changes commited, all good")
     }
   }
 }

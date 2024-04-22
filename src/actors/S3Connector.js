@@ -62,7 +62,7 @@ class S3Connector {
         lastModified: item.LastModified,
         size: item.Size,
       }))
-      .sort((a, b) => new Date(b.LastModified) - new Date(a.LastModified));
+      .sort((a, b) => new Date(a.LastModified) - new Date(b.LastModified));
 
     return transformedData.slice(0, 5);
   }
