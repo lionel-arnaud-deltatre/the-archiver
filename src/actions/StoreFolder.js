@@ -77,6 +77,9 @@ class StoreFolder {
     {
       console.log("all good, lets commit");
     }
+    else {
+      console.error("rollback error");
+    }
 
     return true;
   }
