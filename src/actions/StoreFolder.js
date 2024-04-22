@@ -31,13 +31,16 @@ class StoreFolder {
 
   async uploadZipFile() {
     const s3conn = new S3Connector();
-    const result = await s3conn.uploadFile(this.s3FolderPath, this.outputFilename);
+    const updatedFiles = await s3conn.uploadFile(
+      this.s3FolderPath,
+      this.outputFilename
+    );
 
-    if (result)
-    {
-      core.setOutput("remoteFolderContent", JSON.stringify(result));      
-    }
-  }  
+    //if (updatedFiles) {
+    //  core.setOutput("remoteFolderContent", JSON.stringify(updatedFiles));
+    //}
+    return updatedFiles;
+  }
 
   async execute() {
     console.log("execute action store");
@@ -48,7 +51,18 @@ class StoreFolder {
     }
 
     await this.zipFolder();
-    await this.uploadZipFile();
+    const updated = await this.uploadZipFile();
+
+    // add/update rollback for target
+    const srcFile = path.join(__dirname, '../../workflows/.rollback-template');
+    const destFile = path.join(process.env.repo_root, '.github/workflows')
+
+    console.log("copy template")
+    console.log("srcFile", srcFile)
+    console.log("destFile", destFile)
+    console.log("process.env.repo_root", process.env.repo_root)
+
+    return true;
   }
 }
 

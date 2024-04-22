@@ -25,7 +25,8 @@ async function run() {
     }
 
     if (action) {
-      action.execute();
+      const commitChanges = action.execute();
+      console.log("commitChanges ? ", commitChanges)
     } else {
       console.log("invalid action, nothing achieved here.");
     }
