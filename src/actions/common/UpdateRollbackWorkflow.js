@@ -10,7 +10,7 @@ class UpdateRBWorkflow {
     {
         const versionsString = versionsArray.map(item => `- "${item.version}"`).join("\n          ");
     
-        const srcFile = path.join(__dirname, '../../workflows/.rollback-template');
+        const srcFile = path.join(__dirname, '../../../workflows/.rollback-template');
         const destFile = path.join(process.env.GITHUB_WORKSPACE, `.github/workflows/rollback_${target}.yml`)
 
         console.log("copy template")
@@ -24,10 +24,6 @@ class UpdateRBWorkflow {
             console.error("src file does not exists")
             return;
         }
-        if (!fs.existsSync(destFile)) {
-            console.error("dest file does not exists")
-            return;
-        };
 
         fs.readFile(srcFile, 'utf8', (err, data) => {
             if (err) {
@@ -35,7 +31,8 @@ class UpdateRBWorkflow {
                 return;
             }
     
-            const result = data.replace('<versions_placeholder>', versionsString);
+            const result = data.replace('<target>', target);
+            result = result.replace('<versions_placeholder>', versionsString);
     
             fs.writeFile(destFile, result, 'utf8', (err) => {
                 if (err) {
