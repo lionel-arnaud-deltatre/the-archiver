@@ -31,9 +31,6 @@ outputs:
   remoteFolderContent:
     description: 'Updated versions available for this device'
 
-env:
-  repo_root: ${{ github.workspace }}
-
 runs:
   using: "docker"
   image: "Dockerfile"

@@ -55,12 +55,12 @@ class StoreFolder {
 
     // add/update rollback for target
     const srcFile = path.join(__dirname, '../../workflows/.rollback-template');
-    const destFile = path.join(process.env.repo_root, '.github/workflows')
+    const destFile = path.join(process.env.GITHUB_WORKSPACE, '.github/workflows')
 
     console.log("copy template")
     console.log("srcFile", srcFile)
     console.log("destFile", destFile)
-    console.log("process.env.repo_root", process.env.repo_root)
+    console.log("process.env.repo_root", process.env.GITHUB_WORKSPACE)
 
     return true;
   }
