@@ -14,6 +14,7 @@ COPY . .
 RUN npm install
 
 # Make sure the script is executable and set it as the entrypoint
-COPY start.sh /start.sh
+# COPY start.sh /start.sh
 RUN chmod +x /start.sh
+RUN chmod +x /workflows/commit.sh
 ENTRYPOINT ["/start.sh"]
