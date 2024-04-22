@@ -72,7 +72,11 @@ class StoreFolder {
     const updatedVersions = await this.uploadZipFile(zipped);
 
     // add/update rollback for target
-    await this.updateRollback(updatedVersions);
+    const rbFileUpdated = await this.updateRollback(updatedVersions);
+    if (rbFileUpdated)
+    {
+      console.log("all good, lets commit");
+    }
 
     return true;
   }

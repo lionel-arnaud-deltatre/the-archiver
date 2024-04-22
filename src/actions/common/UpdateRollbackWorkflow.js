@@ -22,13 +22,13 @@ class UpdateRBWorkflow {
 
         if (!fs.existsSync(srcFile)) {
             console.error("src file does not exists")
-            return;
+            return false;
         }
 
         fs.readFile(srcFile, 'utf8', (err, data) => {
             if (err) {
                 console.error("Failed to read template file:", err);
-                return;
+                return false;
             }
     
             const result = data.replace('<target>', target);
@@ -37,8 +37,10 @@ class UpdateRBWorkflow {
             fs.writeFile(destFile, result, 'utf8', (err) => {
                 if (err) {
                     console.error("Failed to write output file:", err);
+                    return false;
                 } else {
                     console.log("Workflow file created successfully.");
+                    return true;
                 }
             });
         });
