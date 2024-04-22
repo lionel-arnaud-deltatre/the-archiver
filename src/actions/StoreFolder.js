@@ -5,6 +5,7 @@ const path = require("path");
 
 const ArchiveManager = require("../actors/ArchiveManager");
 const S3Connector = require("../actors/S3Connector");
+const UpdateRBWorkflow = require("./common/UpdateRollbackWorkflow");
 
 class StoreFolder {
   constructor(params) {
@@ -42,6 +43,11 @@ class StoreFolder {
     return updatedFiles;
   }
 
+  async updateRollback(versions) {
+    const updater = new UpdateRBWorkflow();
+    await updater.update(this.params.deviceType, versions)
+  }
+
   async execute() {
     console.log("execute action store");
 
@@ -51,16 +57,10 @@ class StoreFolder {
     }
 
     await this.zipFolder();
-    const updated = await this.uploadZipFile();
+    const updatedVersions = await this.uploadZipFile();
 
     // add/update rollback for target
-    const srcFile = path.join(__dirname, '../../workflows/.rollback-template');
-    const destFile = path.join(process.env.GITHUB_WORKSPACE, '.github/workflows')
-
-    console.log("copy template")
-    console.log("srcFile", srcFile)
-    console.log("destFile", destFile)
-    console.log("process.env.repo_root", process.env.GITHUB_WORKSPACE)
+    await this.updateRollback(updatedVersions);
 
     return true;
   }
