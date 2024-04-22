@@ -20,4 +20,4 @@ RUN ls -l
 # COPY start.sh /start.sh
 RUN chmod +x ./start.sh
 RUN chmod +x ./workflows/commit.sh
-ENTRYPOINT ["start.sh"]
+ENTRYPOINT ["/usr/src/app/start.sh"]
