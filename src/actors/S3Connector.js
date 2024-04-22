@@ -23,7 +23,6 @@ class S3Connector {
 
     try {
       const data = await this.s3.listObjectsV2(listParams).promise();
-      console.log("getFolderFiles", data.Contents);
       return this.extractRecentFiles(data.Contents);
     } catch (error) {
       console.error("Error in listing S3 Objects:", error);

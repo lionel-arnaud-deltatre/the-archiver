@@ -9,7 +9,7 @@ class UpdateRBWorkflow {
     const versionsString = versionsArray.map((item) => `- "${item.version}"`).join("\n          ");
     console.log("UpdateRBWorkflow", versionsString)
 
-    const srcFile = path.join(__dirname, "../../../workflows/.rollback-template");
+    const srcFile = path.join(__dirname, "../../../resource/.rollback-template");
     const destFile = path.join(process.env.GITHUB_WORKSPACE,`.github/workflows/rollback_${target}.yml`);
 
     if (!fs.existsSync(srcFile)) {

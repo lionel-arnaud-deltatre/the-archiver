@@ -6,7 +6,7 @@ class CommitChanges {
 
   async commit() {
 
-    const commitScript = path.join(__dirname, "../../../workflows/commit.sh");
+    const commitScript = path.join(__dirname, "../../../resource/commit.sh");
     
     const cmd = new ExecCommand(true);
     const cmdline = [commitScript, process.env.GITHUB_WORKSPACE];

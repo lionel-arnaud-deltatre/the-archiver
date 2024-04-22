@@ -19,5 +19,5 @@ RUN ls -l
 # Make sure the script is executable and set it as the entrypoint
 # COPY start.sh /start.sh
 RUN chmod +x ./start.sh
-RUN chmod +x ./workflows/commit.sh
+RUN chmod +x ./resource/commit.sh
 ENTRYPOINT ["/usr/src/app/start.sh"]
