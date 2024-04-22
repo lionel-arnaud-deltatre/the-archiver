@@ -60,11 +60,11 @@ class S3Connector {
       .map((item) => ({
         version: extractVersion(item.Key.split("/").pop()),
         lastModified: item.LastModified,
+        ts: new Date(item.LastModified).getTime(),
         size: item.Size,
       }))
-      .sort((a, b) => new Date(a.LastModified).getTime() - new Date(b.LastModified).getTime());
+      .sort((a, b) => b.ts - a.ts);
 
-      console.log("????", transformedData)
     return transformedData.slice(0, 5);
   }
 }
