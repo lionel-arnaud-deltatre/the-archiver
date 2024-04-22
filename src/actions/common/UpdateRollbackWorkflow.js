@@ -24,7 +24,11 @@ class UpdateRBWorkflow {
       result = result.replace("<versions_placeholder>", versionsString);
       fs.writeFileSync(destFile, result);
 
-      console.error("created updated rollback for", target);
+      console.error("created updated rollback for", target, fs.existsSync(destFile));
+
+      // check
+      const verif = fs.readFileSync(destFile, 'utf-8');
+      console.log(verif);
 
       return true;
     } catch (err) {
