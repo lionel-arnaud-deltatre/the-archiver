@@ -1,3 +1,5 @@
+const path = require("path");
+
 const ExecCommand = require("../../util/ExecCommand");
 
 class CommitChanges {
