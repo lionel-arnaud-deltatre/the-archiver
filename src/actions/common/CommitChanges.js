@@ -4,24 +4,13 @@ class CommitChanges {
   constructor() {}
 
   async commit() {
-    const cmds = [
-      ["cd", process.env.GITHUB_WORKSPACE],
-      ["git", "config", "--global", "user.email", '"action@github.com"'],
-      ["git", "config", "--global", "user.name", '"GitHub Actions"'],
-      ["git", "add", "."],
-      ["git", "commit", "-m", '"Update versions"'],
-      ["git", "push"]
-    ]
 
+    const commitScript = path.join(__dirname, "../../../workflows/commit.sh");
+    
     const cmd = new ExecCommand();
-
-    for (let index = 0; index < cmds.length; index++) {
-      const cmdline = cmds[index];
-
-      console.log("*** EXECUTING", cmdline) 
-      const res = await cmd.execute(cmdline);
-      console.log("=> res ", res);
-    }
+    const cmdline = [commitScript, process.env.GITHUB_WORKSPACE];
+    const res = await cmd.execute(cmdline);
+    console.log("=> res ", res);
   }
 }
 
