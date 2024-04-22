@@ -23,7 +23,7 @@ class S3Connector {
 
     try {
       const data = await this.s3.listObjectsV2(listParams).promise();
-      console.log("getFolderFiles", data.Contents)
+      console.log("getFolderFiles", data.Contents);
       return this.extractRecentFiles(data.Contents);
     } catch (error) {
       console.error("Error in listing S3 Objects:", error);
@@ -51,12 +51,12 @@ class S3Connector {
 
   extractRecentFiles(dataArray) {
     const extractVersion = (filename) => {
-        const start = filename.lastIndexOf('_') + 1;
-        const end = filename.lastIndexOf('.zip');
-        return filename.substring(start, end);
-      };
+      const start = filename.lastIndexOf("_") + 1;
+      const end = filename.lastIndexOf(".zip");
+      return filename.substring(start, end);
+    };
 
-    let transformedData = dataArray
+    const transformedData = dataArray
       .map((item) => ({
         version: extractVersion(item.Key.split("/").pop()),
         lastModified: item.LastModified,

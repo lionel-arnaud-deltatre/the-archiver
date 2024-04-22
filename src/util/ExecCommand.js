@@ -1,7 +1,9 @@
 const spawn = require("child_process").spawn;
 
 class ExecCommand {
-  constructor() {}
+  constructor(ignore = false) {
+    this.ignoreError = ignore;
+  }
 
   execute(args) {
     const exe = args.shift();
@@ -14,13 +16,15 @@ class ExecCommand {
         console.log("stdout: " + data.toString());
       });
 
-      process.stderr.on("data", function (data) {
-        console.log("stderr: " + data.toString());
-        resolve({ error: 1, errorMsg: data.toString() });
-      });
+      if (!this.ignoreError) {
+        process.stderr.on("data", function (data) {
+          //console.log("stderr: " + data.toString());
+          resolve({ error: 1, errorMsg: data.toString() });
+        });
+      }
 
       process.on("exit", function (code) {
-        console.log("child process exited with code " + code.toString());
+        //console.log("child process exited with code " + code.toString());
         resolve({ error: 0 });
       });
     });
