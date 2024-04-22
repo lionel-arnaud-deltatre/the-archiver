@@ -8,10 +8,13 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Copy your application files
-COPY . /
+COPY . ./
 
 # Install dependencies
 RUN npm install
+
+# check what is available
+RUN ls -l
 
 # Make sure the script is executable and set it as the entrypoint
 # COPY start.sh /start.sh
