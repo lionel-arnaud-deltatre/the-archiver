@@ -6,6 +6,7 @@ const path = require("path");
 const ArchiveManager = require("../actors/ArchiveManager");
 const S3Connector = require("../actors/S3Connector");
 const UpdateRBWorkflow = require("./common/UpdateRollbackWorkflow");
+const CommitChanges = require("./common/CommitChanges");
 
 class StoreFolder {
   constructor(params) {
@@ -49,16 +50,17 @@ class StoreFolder {
     
     // get updated files from bucket
     const updatedFiles = await s3conn.getFolderFiles(this.s3FolderPath);
-
-    //if (updatedFiles) {
-    //  core.setOutput("remoteFolderContent", JSON.stringify(updatedFiles));
-    //}
     return updatedFiles;
   }
 
   async updateRollback(versions) {
     const updater = new UpdateRBWorkflow();
     return await updater.update(this.params.deviceType, versions)
+  }
+
+  async commitChanges() {
+    const changes = new CommitChanges();
+    return await changes.commit();
   }
 
   async execute() {
@@ -76,13 +78,9 @@ class StoreFolder {
     const rbFileUpdated = await this.updateRollback(updatedVersions);
     if (rbFileUpdated)
     {
-      console.log("all good, lets commit");
+      await this.commitChanges();
+      console.log("changes commited, al good")
     }
-    else {
-      console.error("rollback error");
-    }
-
-    return true;
   }
 }
 

@@ -1,15 +1,26 @@
-const ExecCommand = require("../util/ExecCommand");
+const ExecCommand = require("../../util/ExecCommand");
 
 class CommitChanges {
   constructor() {}
 
   async commit() {
-    const cmdline = ["osascript", "-e", 'quit app "electron"'];
+    const cmds = [
+      ["git", "config", "--global", "user.email", '"action@github.com"'],
+      ["git", "config", "--global", "user.name", '"GitHub Actions"'],
+      ["git", "add", "."],
+      ["git", "commit", "-m", '"Update versions"'],
+      ["git", "push"]
+    ]
 
     const cmd = new ExecCommand();
-    const res = await cmd.execute(cmdline);
 
-    console.log("res ", res);
+    for (let index = 0; index < cmds.length; index++) {
+      const cmdline = cmds[index];
+
+      console.log("*** EXECUTING", cmdline) 
+      const res = await cmd.execute(cmdline);
+      console.log("=> res ", res);
+    }
   }
 }
 
