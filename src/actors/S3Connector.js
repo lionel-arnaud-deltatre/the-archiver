@@ -56,7 +56,7 @@ class S3Connector {
         return filename.substring(start, end);
       };
 
-    const transformedData = dataArray
+    let transformedData = dataArray
       .map((item) => ({
         version: extractVersion(item.Key.split("/").pop()),
         lastModified: item.LastModified,
@@ -64,6 +64,7 @@ class S3Connector {
       }))
       .sort((a, b) => new Date(a.LastModified) - new Date(b.LastModified));
 
+      console.log("????", transformedData)
     return transformedData.slice(0, 5);
   }
 }
