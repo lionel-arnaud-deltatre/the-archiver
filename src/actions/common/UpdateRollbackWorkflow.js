@@ -37,6 +37,8 @@ class UpdateRBWorkflow {
       result = result.replace("<versions_placeholder>", versionsString);
       fs.writeFileSync(destFile, result);
 
+      console.error("created updated rollback for", target);
+
       return true;
     } catch (err) {
       console.error("could not create rollback file", err);

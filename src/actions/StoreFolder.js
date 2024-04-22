@@ -58,7 +58,7 @@ class StoreFolder {
 
   async updateRollback(versions) {
     const updater = new UpdateRBWorkflow();
-    await updater.update(this.params.deviceType, versions)
+    return await updater.update(this.params.deviceType, versions)
   }
 
   async execute() {
