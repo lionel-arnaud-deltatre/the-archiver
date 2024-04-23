@@ -4,13 +4,13 @@ const path = require("path");
 class UpdateRBWorkflow {
   constructor() {}
 
-  async update(target, versionsArray) {
+  async update(params, versionsArray) {
     
     const versionsString = versionsArray.map((item) => `- "${item.version}"`).join("\n          ");
     console.log("UpdateRBWorkflow", versionsString)
 
     const srcFile = path.join(__dirname, "../../../resource/.rollback-template");
-    const destFile = path.join(process.env.GITHUB_WORKSPACE,`.github/workflows/rollback_${target}.yml`);
+    const destFile = path.join(process.env.GITHUB_WORKSPACE,`.github/workflows/rollback_${params.deviceType}_${params.environment}.yml`);
 
     if (!fs.existsSync(srcFile)) {
       console.error("src file does not exists");
