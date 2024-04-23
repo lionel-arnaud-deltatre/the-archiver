@@ -47,7 +47,7 @@ class S3Connector {
       console.log(`Zip file downloaded and saved locally at ${localFilePath}`);
       return true;
     } catch (error) {
-      console.error('Error downloading zip file:', error);
+      console.error('Error downloading zip file:', params, error);
       return false;
     }
   }
