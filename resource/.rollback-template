@@ -25,6 +25,9 @@ jobs:
           deviceType: <device_type>
           environment: <env>
         env:
+          ARCHIVER_BUCKET_NAME: ${{ vars.ARCHIVER_BUCKET_NAME }}
+          ARCHIVER_S3_REGION: ${{ vars.ARCHIVER_S3_REGION }}
+          ARCHIVER_ROOT_FOLDER: ${{ vars.ARCHIVER_ROOT_FOLDER }}
           ARCHIVER_AWS_ACCESS_KEY_ID: ${{ secrets.ARCHIVER_AWS_ACCESS_KEY_ID }}
           ARCHIVER_AWS_SECRET_ACCESS_KEY: ${{ secrets.ARCHIVER_AWS_SECRET_ACCESS_KEY }}
 
