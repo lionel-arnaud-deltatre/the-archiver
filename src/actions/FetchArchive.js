@@ -15,7 +15,12 @@ class FetchArchive {
       params.version
     );
 
-    this.tempLocalFile = path.join(process.env.GITHUB_WORKSPACE, 'temp', this.archiveName);
+    const tempFolder = path.join(process.env.GITHUB_WORKSPACE, 'temp');
+
+    if (!fs.existsSync(tempFolder))
+        fs.mkdirSync(tempFolder, { recursive: true });
+
+    this.tempLocalFile = path.join(tempFolder, this.archiveName);
   }
 
   async downloadArchive() {
