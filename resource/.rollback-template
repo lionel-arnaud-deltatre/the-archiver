@@ -33,5 +33,6 @@ jobs:
       - name: Store the archive 
         uses: actions/upload-artifact@v4
         with:
-          name: zipped-archived
+          name: ${{ steps.fetcharchive.outputs.archiveName }}
           path: temp
+          retention-days: 5
