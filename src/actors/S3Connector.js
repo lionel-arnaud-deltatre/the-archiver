@@ -6,14 +6,17 @@ const config = require("../../config.json");
 
 class S3Connector {
   constructor() {
-
     const s3Config = {
       accessKeyId: process.env.ARCHIVER_AWS_ACCESS_KEY_ID,
       secretAccessKey: process.env.ARCHIVER_AWS_SECRET_ACCESS_KEY,
-      region: config.AWS.awsRegion
+      region: config.AWS.awsRegion,
     };
 
     this.s3 = new AWS.S3(s3Config);
+  }
+
+  getS3Path(appName, device, env) {
+    return `${config.AWS.rootFolder}/${appName}/${device}/${env}/`;
   }
 
   async getFolderFiles(remotePath) {

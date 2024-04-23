@@ -6,8 +6,7 @@ const ArchiveManager = require("../actors/ArchiveManager");
 const S3Connector = require("../actors/S3Connector");
 const UpdateRBWorkflow = require("./common/UpdateRollbackWorkflow");
 const CommitChanges = require("./common/CommitChanges");
-
-const config = require("../../config.json");
+const S3Util = require("../util/S3Util");
 
 class StoreFolder {
   constructor(params) {
@@ -16,7 +15,6 @@ class StoreFolder {
     const filename = `${params.appName}_${params.deviceType}_${params.environment}_${params.version}.zip`;
     this.outputFilename = path.join(__dirname, filename);
 
-    this.s3FolderPath = `${config.AWS.rootFolder}/${params.appName}/${params.deviceType}/${params.environment}`;
   }
 
   validParameters() {
@@ -41,16 +39,18 @@ class StoreFolder {
 
   async uploadZipFile(zipped) {
     const s3conn = new S3Connector();
+	const s3FolderPath = s3conn.getS3Path(this.params.appName, this.params.deviceType, this.params.environment);
+
     if (zipped)
     {
       const success = await s3conn.uploadFile(
-        this.s3FolderPath,
+        s3FolderPath,
         this.outputFilename
       );
     }
     
     // get updated files from bucket
-    const updatedFiles = await s3conn.getFolderFiles(this.s3FolderPath);
+    const updatedFiles = await s3conn.getFolderFiles(s3FolderPath);
     return updatedFiles;
   }
 
