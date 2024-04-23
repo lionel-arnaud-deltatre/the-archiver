@@ -1,4 +1,4 @@
-name: Rollback <target>
+name: Rollback <device_type> - <env>
 
 on:
   workflow_dispatch:

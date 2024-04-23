@@ -20,7 +20,9 @@ class UpdateRBWorkflow {
     try {
       const data = fs.readFileSync(srcFile, "utf8");
 
-      let result = data.replace("<target>", target);
+      let result = data.replace("<device_type>", params.deviceType);
+      result = result.replace("<env>", params.environment);
+      result = result.replace("<project_name>", params.appName);
       result = result.replace("<versions_placeholder>", versionsString);
       fs.writeFileSync(destFile, result);
 
