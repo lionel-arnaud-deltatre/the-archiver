@@ -2,14 +2,15 @@ const fs = require("fs");
 const path = require("path");
 const AWS = require("aws-sdk");
 
+const config = require("../../config.json");
+
 class S3Connector {
   constructor() {
-    this.bucketName = "tv-apps-global";
 
     const s3Config = {
       accessKeyId: process.env.ARCHIVER_AWS_ACCESS_KEY_ID,
       secretAccessKey: process.env.ARCHIVER_AWS_SECRET_ACCESS_KEY,
-      region: "eu-west-1",
+      region: config.AWS.awsRegion
     };
 
     this.s3 = new AWS.S3(s3Config);
@@ -17,7 +18,7 @@ class S3Connector {
 
   async getFolderFiles(remotePath) {
     const listParams = {
-      Bucket: this.bucketName,
+      Bucket: config.AWS.bucketName,
       Prefix: remotePath, // Using Prefix to filter objects within a specific folder
     };
 
@@ -33,7 +34,7 @@ class S3Connector {
   async uploadFile(remotePath, filename) {
     const bodyStream = fs.createReadStream(filename);
     const s3Params = {
-      Bucket: this.bucketName,
+      Bucket: config.AWS.bucketName,
       Key: remotePath + path.basename(filename),
       Body: bodyStream,
     };

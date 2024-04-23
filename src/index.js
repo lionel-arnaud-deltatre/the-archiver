@@ -10,7 +10,7 @@ async function run() {
       appName: core.getInput("appName"),
       deviceType: core.getInput("deviceType"),
       environment: core.getInput("environment"),
-      folderPath: core.getInput("folderPath"),
+      folderPath: `${process.env.GITHUB_WORKSPACE}/${core.getInput("folderPath")}`,
       filePath: core.getInput("filePath"),
     };
 

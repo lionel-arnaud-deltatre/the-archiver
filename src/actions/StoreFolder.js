@@ -1,5 +1,4 @@
 const core = require("@actions/core");
-
 const fs = require("fs");
 const path = require("path");
 
@@ -8,14 +7,16 @@ const S3Connector = require("../actors/S3Connector");
 const UpdateRBWorkflow = require("./common/UpdateRollbackWorkflow");
 const CommitChanges = require("./common/CommitChanges");
 
+const config = require("../../config.json");
+
 class StoreFolder {
   constructor(params) {
     this.params = params;
 
-    const filename = `${params.appName}_${params.deviceType}_${params.version}.zip`;
+    const filename = `${params.appName}_${params.deviceType}_${params.environment}_${params.version}.zip`;
     this.outputFilename = path.join(__dirname, filename);
 
-    this.s3FolderPath = `archiver/${params.appName}/${params.deviceType}/`;
+    this.s3FolderPath = `${config.AWS.rootFolder}/${params.appName}/${params.deviceType}/${params.environment}`;
   }
 
   validParameters() {

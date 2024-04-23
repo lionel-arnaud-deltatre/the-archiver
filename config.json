@@ -1,0 +1,7 @@
+{
+    "AWS": {
+        "bucketName": "tv-apps-global",
+        "awsRegion": "eu-west-1",
+        "rootFolder": "archiver"
+    }
+}
