@@ -1,3 +1,6 @@
+const fs = require("fs");
+const path = require("path");
+
 const ArchiveUtil = require("../util/ArchiveUtil");
 
 class FetchArchive {
