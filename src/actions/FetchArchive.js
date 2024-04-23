@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const ArchiveUtil = require("../util/ArchiveUtil");
+const S3Connector = require("../actors/S3Connector");
 
 class FetchArchive {
   constructor(params) {
