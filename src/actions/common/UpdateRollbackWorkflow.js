@@ -20,10 +20,14 @@ class UpdateRBWorkflow {
     try {
       const data = fs.readFileSync(srcFile, "utf8");
 
-      let result = data.replace("<device_type>", params.deviceType);
-      result = result.replace("<env>", params.environment);
-      result = result.replace("<project_name>", params.appName);
-      result = result.replace("<versions_placeholder>", versionsString);
+      const replacements = [
+        ["<device_type>", params.deviceType], 
+        ["<env>", params.environment], 
+        ["<project_name>", params.appName], 
+        ["<versions_placeholder>", versionsString]
+      ]
+
+      const result = this.replaceAll(data ,replacements);
       fs.writeFileSync(destFile, result);
 
       return true;
@@ -31,6 +35,15 @@ class UpdateRBWorkflow {
       console.error("could not create rollback file", err);
       return false;
     }
+  }
+
+  replaceAll(str, replacements) {
+    for (let index = 0; index < replacements.length; index++) {
+      const pair = replacements[index];
+      const regex = new RegExp(pair[0], 'g');
+      str = str.replace(regex, pair[1]);
+    }
+    return str;
   }
 }
 
