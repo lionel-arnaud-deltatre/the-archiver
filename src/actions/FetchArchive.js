@@ -22,7 +22,7 @@ class FetchArchive {
     const s3conn = new S3Connector();
 	const s3FolderPath = s3conn.getS3Path(this.params.appName, this.params.deviceType, this.params.environment);
    
-    const success = await s3conn.downloadZipFile(
+    const success = await s3conn.downloadZip(
         s3FolderPath + '/' + this.archiveName,
         this.tempLocalFile
     );
