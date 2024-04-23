@@ -29,3 +29,9 @@ jobs:
         env:
           ARCHIVER_AWS_ACCESS_KEY_ID: ${{ secrets.ARCHIVER_AWS_ACCESS_KEY_ID }}
           ARCHIVER_AWS_SECRET_ACCESS_KEY: ${{ secrets.ARCHIVER_AWS_SECRET_ACCESS_KEY }}
+
+      - name: Store the archive 
+        uses: actions/upload-artifact@v4
+        with:
+          name: zipped-archived
+          path: temp

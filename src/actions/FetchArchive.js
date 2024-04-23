@@ -1,3 +1,4 @@
+const core = require("@actions/core");
 const fs = require("fs");
 const path = require("path");
 
@@ -42,8 +43,11 @@ class FetchArchive {
     const success = await this.downloadArchive();
 
     // check zip exists
-    console.log("check zip here", this.tempLocalFile, fs.existsSync(this.tempLocalFile))
-    console.log("done, success ? ", success);
+    const zipAvailable = fs.existsSync(this.tempLocalFile);
+    
+    if (!success || !zipAvailable) {
+        core.setOutput("errorMessage", "could not fetch archive");
+    }
   }
 }
 
