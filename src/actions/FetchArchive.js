@@ -26,15 +26,18 @@ class FetchArchive {
         this.tempLocalFile
     );
 
-    // check zip exists
-    console.log("check zip here", this.tempLocalFile, fs.existsSync(this.tempLocalFile))
-
     return success;
   }
 
   async execute() {
     console.log("execute fetch archive from S3");
-    console.log("save it to", this.outputFilename);
+    console.log("save it to", this.tempLocalFile);
+
+    const success = await this.downloadArchive();
+
+    // check zip exists
+    console.log("check zip here", this.tempLocalFile, fs.existsSync(this.tempLocalFile))
+    console.log("done, success ? ", success);
   }
 }
 
