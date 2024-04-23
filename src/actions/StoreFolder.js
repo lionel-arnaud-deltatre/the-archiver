@@ -6,7 +6,6 @@ const ArchiveManager = require("../actors/ArchiveManager");
 const S3Connector = require("../actors/S3Connector");
 const UpdateRBWorkflow = require("./common/UpdateRollbackWorkflow");
 const CommitChanges = require("./common/CommitChanges");
-const S3Util = require("../util/S3Util");
 
 class StoreFolder {
   constructor(params) {
