@@ -7,14 +7,29 @@ class FetchArchive {
   constructor(params) {
     this.params = params;
 
-    const filename = ArchiveUtil.getArchiveName(
+    this.archiveName = ArchiveUtil.getArchiveName(
       params.appName,
       params.deviceType,
       params.environment,
       params.version
     );
 
-    this.outputFilename = path.join(process.env.GITHUB_WORKSPACE, 'temp', filename);
+    this.tempLocalFile = path.join(process.env.GITHUB_WORKSPACE, 'temp', this.archiveName);
+  }
+
+  async downloadArchive() {
+    const s3conn = new S3Connector();
+	const s3FolderPath = s3conn.getS3Path(this.params.appName, this.params.deviceType, this.params.environment);
+   
+    const success = await s3conn.downloadZipFile(
+        s3FolderPath + '/' + this.archiveName,
+        this.tempLocalFile
+    );
+
+    // check zip exists
+    console.log("check zip here", this.tempLocalFile, fs.existsSync(this.tempLocalFile))
+
+    return success;
   }
 
   async execute() {

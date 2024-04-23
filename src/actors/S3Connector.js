@@ -34,6 +34,24 @@ class S3Connector {
     }
   }
 
+  async downloadZip(pathToZip, localFilePath) {
+    const params = {
+      Bucket: config.AWS.bucketName,
+      Key: pathToZip
+    };
+
+    try {
+      const data = await this.s3.getObject(params).promise();
+      fs.writeFileSync(localFilePath, data.Body);
+
+      console.log(`Zip file downloaded and saved locally at ${localFilePath}`);
+      return true;
+    } catch (error) {
+      console.error('Error downloading zip file:', error);
+      return false;
+    }
+  }
+
   async uploadFile(remotePath, filename) {
     const bodyStream = fs.createReadStream(filename);
     const s3Params = {
