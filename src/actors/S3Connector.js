@@ -60,7 +60,7 @@ class S3Connector {
   async uploadFile(remotePath, filename) {
     const bodyStream = fs.createReadStream(filename);
     const s3Params = {
-      Bucket: config.AWS.bucketName,
+      Bucket: this.bucketName,
       Key: remotePath + path.basename(filename),
       Body: bodyStream,
     };
