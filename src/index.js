@@ -1,5 +1,6 @@
 const core = require("@actions/core");
 const StoreFolder = require("./actions/StoreFolder");
+const FetchArchive = require("./actions/FetchArchive");
 
 async function run() {
   try {
@@ -16,10 +17,9 @@ async function run() {
 
     let action = null;
     switch (actionType) {
-      case "store-folder":
-        action = new StoreFolder(params);
-        break;
-
+      case "store-folder": action = new StoreFolder(params); break;
+      case "fetch-archive": action = new FetchArchive(params); break;
+      
       default:
         break;
     }

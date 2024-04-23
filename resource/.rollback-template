@@ -17,7 +17,7 @@ jobs:
       - name: Rollback to Selected Version
         run: echo "Rolling back to ${{ github.event.inputs.version }}"
 
-      - name: Fetch artifact and store it
+      - name: Fetch archive and store it
         id: fetcharchive
         uses: lionel-arnaud-deltatre/the-archiver@main
         with:
@@ -25,9 +25,7 @@ jobs:
           version: ${{ github.event.inputs.version }}
           appName: <project_name>
           deviceType: <device_type>
-          environment: "${{ github.event.inputs.environment }}"
-          tempPath: "temp"
+          environment: <env>
         env:
           ARCHIVER_AWS_ACCESS_KEY_ID: ${{ secrets.ARCHIVER_AWS_ACCESS_KEY_ID }}
           ARCHIVER_AWS_SECRET_ACCESS_KEY: ${{ secrets.ARCHIVER_AWS_SECRET_ACCESS_KEY }}
-          GITHUB_TOKEN: ${{ secrets.ARCHIVER_PAT }}

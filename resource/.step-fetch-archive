@@ -1,0 +1,15 @@
+
+      - name: folder and Upload to S3
+        id: archivefolder
+        uses: lionel-arnaud-deltatre/the-archiver@main
+        with:
+          actionType: "store-folder"
+          version: ${{ env.SEMVER_VERSION }}
+          appName: "myrepo"
+          deviceType: "${{ github.event.inputs.device }}"
+          environment: "${{ github.event.inputs.environment }}"
+          folderPath: "${{ github.workspace }}/dist"
+        env:
+          ARCHIVER_AWS_ACCESS_KEY_ID: ${{ secrets.ARCHIVER_AWS_ACCESS_KEY_ID }}
+          ARCHIVER_AWS_SECRET_ACCESS_KEY: ${{ secrets.ARCHIVER_AWS_SECRET_ACCESS_KEY }}
+          GITHUB_TOKEN: ${{ secrets.ARCHIVER_PAT }}

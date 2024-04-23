@@ -6,14 +6,14 @@ const ArchiveManager = require("../actors/ArchiveManager");
 const S3Connector = require("../actors/S3Connector");
 const UpdateRBWorkflow = require("./common/UpdateRollbackWorkflow");
 const CommitChanges = require("./common/CommitChanges");
+const ArchiveUtil = require("../util/ArchiveUtil");
 
 class StoreFolder {
   constructor(params) {
     this.params = params;
 
-    const filename = `${params.appName}_${params.deviceType}_${params.environment}_${params.version}.zip`;
+    const filename = ArchiveUtil.getArchiveName(params.appName, params.deviceType, params.environment, params.version);
     this.outputFilename = path.join(__dirname, filename);
-
   }
 
   validParameters() {
