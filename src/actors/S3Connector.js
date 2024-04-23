@@ -6,22 +6,27 @@ const config = require("../../config.json");
 
 class S3Connector {
   constructor() {
+    this.bucketName = process.env.ARCHIVER_BUCKET_NAME;
+    this.rootFolder = process.env.ARCHIVER_ROOT_FOLDER || config.AWS.rootFolder;
+
+    const bucketRegion = process.env.ARCHIVER_S3_REGION || config.AWS.awsRegion;
+
     const s3Config = {
       accessKeyId: process.env.ARCHIVER_AWS_ACCESS_KEY_ID,
       secretAccessKey: process.env.ARCHIVER_AWS_SECRET_ACCESS_KEY,
-      region: config.AWS.awsRegion,
+      region: bucketRegion,
     };
 
     this.s3 = new AWS.S3(s3Config);
   }
 
   getS3Path(appName, device, env) {
-    return `${config.AWS.rootFolder}/${appName}/${device}/${env}/`;
+    return `${this.rootFolder}/${appName}/${device}/${env}/`;
   }
 
   async getFolderFiles(remotePath) {
     const listParams = {
-      Bucket: config.AWS.bucketName,
+      Bucket: this.bucketName,
       Prefix: remotePath, // Using Prefix to filter objects within a specific folder
     };
 
@@ -36,7 +41,7 @@ class S3Connector {
 
   async downloadZip(pathToZip, localFilePath) {
     const params = {
-      Bucket: config.AWS.bucketName,
+      Bucket: this.bucketName,
       Key: pathToZip
     };
 

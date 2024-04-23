@@ -14,8 +14,6 @@ jobs:
   rollback:
     runs-on: ubuntu-latest
     steps:
-      - name: Rollback to Selected Version
-        run: echo "Rolling back to ${{ github.event.inputs.version }}"
 
       - name: Fetch archive and store it
         id: fetcharchive

@@ -4,8 +4,14 @@
 to avoid installing the dependencies of the action in the project repo calling the action
 
 ## set the archiver AWS keys in your project
-Because the archiver scripts are executed in the project scope, you need to add the 2 AWS keys as repository secrets:
-- ARCHIVER_AWS_ACCESS_KEY_ID
-- ARCHIVER_AWS_SECRET_ACCESS_KEY
+Because the archiver scripts are executed in the project scope, you need to set repository secrets and variables
 
-These are used to access the S3 bucket where archives are stored
+*repository secrets:*
+    - ARCHIVER_AWS_ACCESS_KEY_ID
+    - ARCHIVER_AWS_SECRET_ACCESS_KEY
+
+*repository variables:*
+    - ARCHIVER_BUCKET_NAME: name of the bucket to store the acrhives
+    - ARCHIVER_S3_REGION:   region of the bucket (optional)
+    - ARCHIVER_ROOT_FOLDER: root folder on the bucket (optional)
+
