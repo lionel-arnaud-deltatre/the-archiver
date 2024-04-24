@@ -4,6 +4,7 @@ const path = require("path");
 
 const ArchiveUtil = require("../util/ArchiveUtil");
 const FileUtil = require("../util/FileUtil");
+const AWSDownloadArchive = require("../commands/s3/AWSDownloadArchive");
 
 class FetchArchive {
   constructor(params) {
