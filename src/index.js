@@ -1,6 +1,9 @@
+require('dotenv').config();
+
 const core = require("@actions/core");
 const StoreFolder = require("./actions/StoreFolder");
 const FetchArchive = require("./actions/FetchArchive");
+
 
 async function run() {
   try {

@@ -2,19 +2,31 @@ const core = require("@actions/core");
 const fs = require("fs");
 const path = require("path");
 
-const S3Connector = require("../actors/S3Connector");
 const ArchiveUtil = require("../util/ArchiveUtil");
 
 const ZipFolder = require("../commands/zip/ZipFolder");
 const UpdateRBWorkflow = require("../commands/workflows/UpdateRollbackWorkflow");
 const CommitChanges = require("../commands/git/CommitChanges");
+const AWSUploadArchive = require("../commands/s3/AWSUploadArchive");
+const FileUtil = require("../util/FileUtil");
+const AWSGetVersions = require("../commands/s3/AWSGetVersions");
 
 class StoreFolder {
   constructor(params) {
     this.params = params;
 
-    const filename = ArchiveUtil.getArchiveName(params.appName, params.deviceType, params.environment, params.version);
-    this.outputFilename = path.join(__dirname, filename);
+    const filename = ArchiveUtil.getArchiveName(
+      params.appName,
+      params.deviceType,
+      params.environment,
+      params.version
+    );
+    
+    const distPath = path.join(__dirname, '../../dist');
+    FileUtil.ensureDirSync(distPath);
+
+    this.archivePath = path.join(distPath, filename);
+    console.log("this.archivePath", this.archivePath);
   }
 
   validParameters() {
@@ -25,33 +37,29 @@ class StoreFolder {
     return true;
   }
 
-  async zipFolder() {
+  async zip() {
     const zipCmd = new ZipFolder();
-    if (fs.existsSync(this.params.folderPath))
-    {
-      await zipCmd.execute(this.params.folderPath, this.outputFilename);
-      return true;
-    } else {
-      console.error("ERROR: folder does not exists, skipping zipping")
-      return false;
-    }
+    return await zipCmd.execute(this.params.folderPath, this.archivePath);
   }
 
-  async uploadZipFile(zipped) {
-    const s3conn = new S3Connector();
-	const s3FolderPath = s3conn.getS3Path(this.params.appName, this.params.deviceType, this.params.environment);
+  async uploadToS3() {
+    const uploadCmd = new AWSUploadArchive();
+    return await uploadCmd.execute(
+        this.params.appName,
+        this.params.deviceType,
+        this.params.environment,
+        this.archivePath
+    );
+  }
 
-    if (zipped)
-    {
-      const success = await s3conn.uploadFile(
-        s3FolderPath,
-        this.outputFilename
-      );
-    }
-    
-    // get updated files from bucket
-    const updatedFiles = await s3conn.getFolderFiles(s3FolderPath);
-    return updatedFiles;
+  async getS3Versions() {
+    const versionsCmd = new AWSGetVersions();
+    return await versionsCmd.execute(
+        this.params.appName,
+        this.params.deviceType,
+        this.params.environment,
+        this.archivePath
+    );
   }
 
   async updateRollback(versions) {
@@ -72,10 +80,18 @@ class StoreFolder {
       return;
     }
 
-    const zipped = await this.zipFolder();
-    const updatedVersions = await this.uploadZipFile(zipped);
+    console.log("Step 1 - zip folder", this.params.folderPath, "to", this.archivePath);
+    const zipped = await this.zip();
+    if (zipped)
+    {
+        console.log("Step 2 - upload zip to S3");
+        await this.uploadToS3();
+    }
 
-    // add/update rollback for target
+    console.log("Step 3 - get available version on S3");
+    const updatedVersions = await this.getS3Versions();
+
+    console.log("Step 4 - generate rollback workflow");
     const rbFileUpdated = await this.updateRollback(updatedVersions);
     if (rbFileUpdated)
     {

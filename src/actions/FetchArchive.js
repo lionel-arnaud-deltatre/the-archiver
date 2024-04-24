@@ -4,6 +4,7 @@ const path = require("path");
 
 const ArchiveUtil = require("../util/ArchiveUtil");
 const S3Connector = require("../actors/S3Connector");
+const FileUtil = require("../util/FileUtil");
 
 class FetchArchive {
   constructor(params) {
@@ -18,8 +19,7 @@ class FetchArchive {
 
     const tempFolder = path.join(process.env.GITHUB_WORKSPACE, 'temp');
 
-    if (!fs.existsSync(tempFolder))
-        fs.mkdirSync(tempFolder, { recursive: true });
+    FileUtil.ensureDirSync(tempFolder);
 
     this.tempLocalFile = path.join(tempFolder, this.archiveName);
   }

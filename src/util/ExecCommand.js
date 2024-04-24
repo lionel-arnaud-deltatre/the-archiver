@@ -11,21 +11,23 @@ class ExecCommand {
 
     return new Promise((resolve) => {
       const process = spawn(exe, args);
+      const buffer = [];
 
-      process.stdout.on("data", function (data) {
-        console.log("stdout: " + data.toString());
+      process.stdout.on("data", (data) => {
+        //console.log("stdout: " + data.toString());
+        buffer.push(data.toString())
       });
 
       if (!this.ignoreError) {
-        process.stderr.on("data", function (data) {
+        process.stderr.on("data", (data) => {
           //console.log("stderr: " + data.toString());
           resolve({ error: 1, errorMsg: data.toString() });
         });
       }
 
-      process.on("exit", function (code) {
+      process.on("exit", (code) => {
         //console.log("child process exited with code " + code.toString());
-        resolve({ error: 0 });
+        resolve({ error: 0, data: buffer });
       });
     });
   }
