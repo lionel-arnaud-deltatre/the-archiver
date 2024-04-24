@@ -27,7 +27,6 @@ class AWSDownloadArchive extends AWSDefaultCommand {
         this.bucketRegion
     ];
     const res = await cmd.execute(cmdline);
-    console.log("res =>", res);
     return res.error === 0;    
   }
 }
