@@ -76,8 +76,10 @@ class UpdateRBWorkflow {
 
   bytesToMB(bytes) {
     if (bytes<1000) return bytes.toFixed(2) + "bytes";
+
     const kb = bytes / 1024;
-    if (kb<1000) return MB.toFixed(2) + "kb";
+    if (kb<1000) return kb.toFixed(2) + "kb";
+    
     const MB = bytes / 1024 / 1024;
     return MB.toFixed(2) + "Mb";
   }
