@@ -1,12 +1,24 @@
 const fs = require("fs");
+const path = require("path");
+
 const archiver = require("archiver");
+const ExecCommand = require("../util/ExecCommand");
 
 class ArchiveManager {
   constructor() {}
 
-  zipFolder(sourceDir, outPath) {
+  async zipFolderSH(sourceDir, outputFile) {
+    const zipScript = path.join(__dirname, "../../resource/zip_folder.sh");
+    
+    const cmd = new ExecCommand();
+    const cmdline = [zipScript, outputFile, sourceDir];
+    const res = await cmd.execute(cmdline);
+    console.log("zipFolderSH res", res);
+  }
+
+  zipFolder(sourceDir, outputFile) {
     return new Promise((resolve, reject) => {
-      const output = fs.createWriteStream(outPath);
+      const output = fs.createWriteStream(outputFile);
       const archive = archiver("zip", { zlib: { level: 9 } }); // Sets the compression level.
 
       output.on("close", () => {

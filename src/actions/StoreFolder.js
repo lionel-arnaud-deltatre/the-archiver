@@ -28,7 +28,7 @@ class StoreFolder {
     const archman = new ArchiveManager();
     if (fs.existsSync(this.params.folderPath))
     {
-      await archman.zipFolder(this.params.folderPath, this.outputFilename);
+      await archman.zipFolderSH(this.params.folderPath, this.outputFilename);
       return true;
     } else {
       console.error("ERROR: folder does not exists, skipping zipping")
