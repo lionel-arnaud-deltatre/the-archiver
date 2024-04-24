@@ -8,10 +8,10 @@ class AWSDownloadArchive extends AWSDefaultCommand {
     super()
   }
 
-  async execute(appName, device, env, zipPath) {
+  async execute(appName, device, env, archiveName, zipPath) {
 
     const s3dlScript = path.join(__dirname, "../../../resource/aws_s3_download.sh");
-    const s3Path = this.getS3ArchivePath(appName, device, env);
+    const s3Path = this.getS3ArchivePath(appName, device, env) + archiveName;
 
     console.log("execute s3 download", s3Path, "to", zipPath);
 
@@ -27,6 +27,7 @@ class AWSDownloadArchive extends AWSDefaultCommand {
         this.bucketRegion
     ];
     const res = await cmd.execute(cmdline);
+    console.log("res =>", res);
     return res.error === 0;    
   }
 }
