@@ -4,7 +4,7 @@ const path = require("path");
 class UpdateRBWorkflow {
   constructor() {}
 
-  async update(params, versionsArray) {
+  async execute(params, versionsArray) {
     
     const versionsString = versionsArray.map((item) => `- "${item.version}"`).join("\n          ");
     console.log("UpdateRBWorkflow", versionsString)

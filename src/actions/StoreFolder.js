@@ -2,11 +2,12 @@ const core = require("@actions/core");
 const fs = require("fs");
 const path = require("path");
 
-const ArchiveManager = require("../actors/ArchiveManager");
 const S3Connector = require("../actors/S3Connector");
-const UpdateRBWorkflow = require("./common/UpdateRollbackWorkflow");
-const CommitChanges = require("./common/CommitChanges");
 const ArchiveUtil = require("../util/ArchiveUtil");
+
+const ZipFolder = require("../commands/zip/ZipFolder");
+const UpdateRBWorkflow = require("../commands/workflows/UpdateRollbackWorkflow");
+const CommitChanges = require("../commands/git/CommitChanges");
 
 class StoreFolder {
   constructor(params) {
@@ -25,10 +26,10 @@ class StoreFolder {
   }
 
   async zipFolder() {
-    const archman = new ArchiveManager();
+    const zipCmd = new ZipFolder();
     if (fs.existsSync(this.params.folderPath))
     {
-      await archman.zipFolderSH(this.params.folderPath, this.outputFilename);
+      await zipCmd.execute(this.params.folderPath, this.outputFilename);
       return true;
     } else {
       console.error("ERROR: folder does not exists, skipping zipping")
@@ -54,13 +55,13 @@ class StoreFolder {
   }
 
   async updateRollback(versions) {
-    const updater = new UpdateRBWorkflow();
-    return await updater.update(this.params, versions)
+    const updateCmd = new UpdateRBWorkflow();
+    return await updateCmd.execute(this.params, versions);
   }
 
   async commitChanges() {
     const changes = new CommitChanges();
-    return await changes.commit();
+    return await changes.execute();
   }
 
   async execute() {

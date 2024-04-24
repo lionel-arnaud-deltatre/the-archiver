@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const ArchiveManager = require("../actors/ArchiveManager");
+const ZipFolder = require("../commands/zip/ZipFolder");
 
 const params = {
     version: "0.0.1",
@@ -17,7 +17,5 @@ const outputFilename = 'test.zip';
 if (!fs.existsSync(outputPath))
     fs.mkdirSync(outputPath, { recursive: true });
 
-const archiver = new ArchiveManager();
-//archiver.zipFolder(params.folderPath, `${outputPath}/${outputFilename}`);
-
-archiver.zipFolderSH(params.folderPath, `${outputPath}/${outputFilename}`); // using sh script
+const zipCmd = new ZipFolder();
+zipCmd.execute(params.folderPath, `${outputPath}/${outputFilename}`);

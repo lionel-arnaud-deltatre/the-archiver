@@ -4,9 +4,9 @@ const ExecCommand = require("../../util/ExecCommand");
 class CommitChanges {
   constructor() {}
 
-  async commit() {
+  async execute() {
 
-    const commitScript = path.join(__dirname, "../../../resource/commit.sh");
+    const commitScript = path.join(__dirname, "../../../resource/git_commit.sh");
     
     const cmd = new ExecCommand(true);
     const cmdline = [commitScript, process.env.GITHUB_WORKSPACE];
