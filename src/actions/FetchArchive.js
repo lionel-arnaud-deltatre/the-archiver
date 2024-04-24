@@ -3,7 +3,6 @@ const fs = require("fs");
 const path = require("path");
 
 const ArchiveUtil = require("../util/ArchiveUtil");
-const S3Connector = require("../actors/S3Connector");
 const FileUtil = require("../util/FileUtil");
 
 class FetchArchive {
@@ -25,6 +24,8 @@ class FetchArchive {
   }
 
   async downloadArchive() {
+    console.log("download archive")
+    /*
     const s3conn = new S3Connector();
 	const s3FolderPath = s3conn.getS3Path(this.params.appName, this.params.deviceType, this.params.environment);
    
@@ -33,7 +34,7 @@ class FetchArchive {
         this.tempLocalFile
     );
 
-    return success;
+    return success;*/
   }
 
   async execute() {
