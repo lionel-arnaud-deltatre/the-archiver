@@ -8,7 +8,7 @@ class UpdateRBWorkflow {
     const versionsString = versionsArray
       .map(
         (item) =>
-          `- "${item.version}" (${this.formatDate(item.lastModified)}) - ${this.bytesToMB(item.size)}`
+          `- "${item.version} (${this.formatDate(item.lastModified)}) - ${this.bytesToMB(item.size)}"`
       ).join("\n          ");
     console.log("UpdateRBWorkflow", versionsString);
 
@@ -75,8 +75,11 @@ class UpdateRBWorkflow {
   }
 
   bytesToMB(bytes) {
+    if (bytes<1000) return bytes.toFixed(2) + "bytes";
+    const kb = bytes / 1024;
+    if (kb<1000) return MB.toFixed(2) + "kb";
     const MB = bytes / 1024 / 1024;
-    return MB.toFixed(2); // Rounds to two decimal places
+    return MB.toFixed(2) + "Mb";
   }
 }
 
