@@ -1,4 +1,4 @@
-# the-archiver
+# soterius-the-archiver
 
 ## why use Docker
 to avoid installing the dependencies of the action in the project repo calling the action

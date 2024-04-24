@@ -1,21 +1,13 @@
 {
-  "name": "the-archiver-store-folder",
+  "name": "deltatre-soterius",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lionel-arnaud-deltatre/the-archiver.git"
-  },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/lionel-arnaud-deltatre/the-archiver/issues"
-  },
-  "homepage": "https://github.com/lionel-arnaud-deltatre/the-archiver#readme",
   "dependencies": {
     "@actions/core": "^1.10.1",
     "archiver": "^7.0.1",

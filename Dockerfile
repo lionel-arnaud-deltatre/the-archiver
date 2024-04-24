@@ -1,6 +1,21 @@
 # Use an official Node.js runtime as a parent image
 FROM node:latest
 
+# Install necessary packages
+RUN apt-get update && apt-get install -y \
+    zip \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install AWS CLI
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    unzip awscliv2.zip \
+    sudo ./aws/install \
+
+# Verify installations
+RUN aws --version
+RUN zip --version
+
 # Setting the working directory
 WORKDIR /usr/src/app
 

@@ -6,22 +6,15 @@ const config = require("../../config.json");
 
 class S3Connector {
   constructor() {
-    console.log("S3Connector")
-    console.log(" - ARCHIVER_BUCKET_NAME:", process.env.ARCHIVER_BUCKET_NAME)
-    console.log(" - ARCHIVER_S3_REGION:", process.env.ARCHIVER_S3_REGION)
-    console.log(" - ARCHIVER_ROOT_FOLDER:", process.env.ARCHIVER_ROOT_FOLDER)
-    console.log(" - ARCHIVER_AWS_ACCESS_KEY_ID:", process.env.ARCHIVER_AWS_ACCESS_KEY_ID)
-    console.log(" - ARCHIVER_AWS_SECRET_ACCESS_KEY:", process.env.ARCHIVER_AWS_SECRET_ACCESS_KEY)
-    
-
     this.bucketName = process.env.ARCHIVER_BUCKET_NAME;
     this.rootFolder = process.env.ARCHIVER_ROOT_FOLDER || config.AWS.rootFolder;
 
     const bucketRegion = process.env.ARCHIVER_S3_REGION || config.AWS.awsRegion;
 
-    console.log("=> this.bucketName", this.bucketName)
-    console.log("=> this.rootFolder", this.rootFolder)
-    console.log("=> bucketRegion", bucketRegion)
+    console.log("connectiong to s3")
+    console.log(" - bucketName", this.bucketName)
+    console.log(" - rootFolder", this.rootFolder)
+    console.log(" - region", bucketRegion)
 
     const s3Config = {
       accessKeyId: process.env.ARCHIVER_AWS_ACCESS_KEY_ID,
