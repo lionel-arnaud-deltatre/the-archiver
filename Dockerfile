@@ -1,16 +1,17 @@
 # Use an official Node.js runtime as a parent image
 FROM node:latest
 
-# Install necessary packages
+# Install zip utility and curl
 RUN apt-get update && apt-get install -y \
     zip \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Install AWS CLI
+# Install AWS CLI v2
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
-    unzip awscliv2.zip \
-    sudo ./aws/install
+    && unzip awscliv2.zip \
+    && ./aws/install \
+    && rm -f awscliv2.zip
 
 # Verify installations
 RUN aws --version
