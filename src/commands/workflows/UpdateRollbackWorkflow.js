@@ -8,7 +8,7 @@ class UpdateRBWorkflow {
     const versionsString = versionsArray
       .map(
         (item) =>
-          `- "${item.version} (${this.formatDate(item.lastModified)}) - ${this.bytesToMB(item.size)}"`
+          `- "${item.version} (${this.formatDate(item.lastModified)} - ${this.bytesToMB(item.size)})"`
       ).join("\n          ");
     console.log("UpdateRBWorkflow", versionsString);
 

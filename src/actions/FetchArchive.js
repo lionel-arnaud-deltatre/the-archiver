@@ -10,6 +10,9 @@ class FetchArchive {
   constructor(params) {
     this.params = params;
 
+    // clean version as dropdown version looks like "2.9.1 (April 24, 2024 01:45 PM - 631.71kb)"
+    this.params.version = this.cleanVersion(this.params.version);
+
     this.archiveName = ArchiveUtil.getArchiveName(
       params.appName,
       params.deviceType,
@@ -17,22 +20,27 @@ class FetchArchive {
       params.version
     );
 
-    const tempFolder = path.join(process.env.GITHUB_WORKSPACE, 'dist');
+    const tempFolder = path.join(process.env.GITHUB_WORKSPACE, "dist");
 
     FileUtil.ensureDirSync(tempFolder);
 
     this.tempLocalFile = path.join(tempFolder, this.archiveName);
   }
 
+  cleanVersion(str) {
+    let index = str.indexOf("(");
+    return index > -1 ? str.substring(0, index).trim() : str;
+  }
+
   async downloadArchive() {
-    console.log("download archive")
+    console.log("download archive");
 
     const dlCmd = new AWSDownloadArchive();
     return await dlCmd.execute(
-        this.params.appName,
-        this.params.deviceType,
-        this.params.environment,
-        this.tempLocalFile
+      this.params.appName,
+      this.params.deviceType,
+      this.params.environment,
+      this.tempLocalFile
     );
   }
 
@@ -46,9 +54,9 @@ class FetchArchive {
     const zipAvailable = fs.existsSync(this.tempLocalFile);
 
     if (!success || !zipAvailable) {
-        core.setOutput("errorMessage", "could not fetch archive");
+      core.setOutput("errorMessage", "could not fetch archive");
     } else {
-        core.setOutput("archiveName", this.archiveName);
+      core.setOutput("archiveName", this.archiveName);
     }
   }
 }
