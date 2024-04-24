@@ -50,18 +50,15 @@ class FetchArchive {
     console.log("save it to", this.tempLocalFile);
 
     const success = await this.downloadArchive();
-    console.log("dl success:", success);
 
     // check zip exists
     const zipAvailable = fs.existsSync(this.tempLocalFile);
-    console.log("zipAvailable:", this.tempLocalFile, zipAvailable);
 
     if (!success || !zipAvailable) {
-      console.log("KO");
       core.setOutput("errorMessage", "could not fetch archive");
     } else {
-      console.log("OK");
       core.setOutput("archiveName", this.archiveName);
+      core.setOutput("archivePath", this.tempLocalFile);
     }
   }
 }

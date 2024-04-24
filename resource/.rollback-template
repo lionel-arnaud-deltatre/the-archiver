@@ -35,5 +35,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.fetcharchive.outputs.archiveName }}
-          path: dist/${{ steps.fetcharchive.outputs.archiveName }}
+          path: ${{ steps.fetcharchive.outputs.archivePath }}
           retention-days: 5
