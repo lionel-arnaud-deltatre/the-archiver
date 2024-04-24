@@ -16,7 +16,7 @@ class FetchArchive {
       params.version
     );
 
-    const tempFolder = path.join(process.env.GITHUB_WORKSPACE, 'temp');
+    const tempFolder = path.join(process.env.GITHUB_WORKSPACE, 'dist');
 
     FileUtil.ensureDirSync(tempFolder);
 
@@ -25,16 +25,14 @@ class FetchArchive {
 
   async downloadArchive() {
     console.log("download archive")
-    /*
-    const s3conn = new S3Connector();
-	const s3FolderPath = s3conn.getS3Path(this.params.appName, this.params.deviceType, this.params.environment);
-   
-    const success = await s3conn.downloadZip(
-        s3FolderPath + this.archiveName,
+
+    const dlCmd = new AWSDownloadArchive();
+    return await dlCmd.execute(
+        this.params.appName,
+        this.params.deviceType,
+        this.params.environment,
         this.tempLocalFile
     );
-
-    return success;*/
   }
 
   async execute() {

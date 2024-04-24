@@ -39,4 +39,6 @@ RUN chmod +x ./resource/git_commit.sh
 RUN chmod +x ./resource/zip_folder.sh
 RUN chmod +x ./resource/aws_s3_upload.sh
 RUN chmod +x ./resource/aws_s3_list.sh
+RUN chmod +x ./resource/aws_s3_download.sh
+
 ENTRYPOINT ["/usr/src/app/start.sh"]
