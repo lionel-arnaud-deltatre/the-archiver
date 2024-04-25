@@ -31,9 +31,9 @@ jobs:
         env:
           PROJECT_AWS_ACCESS_KEY_ID: ${{ secrets.<project_access_key> }}
           PROJECT_AWS_SECRET_ACCESS_KEY: ${{ secrets.<project_secret> }}
-          PROJECT_BUCKET_NAME: ${{ <project_bucketname> }}
-          PROJECT_S3_REGION: ${{ <project_s3region> }}
-          PROJECT_ROOT_FOLDER: ${{ <project_rootfolder> }}
+          PROJECT_BUCKET_NAME: "<project_bucketname>"
+          PROJECT_S3_REGION: "<project_s3region>"
+          PROJECT_ROOT_FOLDER: "<project_rootfolder>"
           
           ARCHIVER_AWS_ACCESS_KEY_ID: ${{ secrets.ARCHIVER_AWS_ACCESS_KEY_ID }}
           ARCHIVER_AWS_SECRET_ACCESS_KEY: ${{ secrets.ARCHIVER_AWS_SECRET_ACCESS_KEY }}

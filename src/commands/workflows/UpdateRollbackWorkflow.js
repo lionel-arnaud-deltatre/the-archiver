@@ -33,10 +33,7 @@ class UpdateRBWorkflow {
 				['<project_name>', params.appName],
 				['<versions_placeholder>', versionsString],
 				['<project_access_key>', process.env.PROJECT_AWS_ACCESS_KEY_ID_SEC],
-				['<project_secret>', process.env.PROJECT_AWS_SECRET_ACCESS_KEY_SEC],
-				['<project_bucketname>', process.env.PROJECT_BUCKET_NAME],
-				['<project_s3region>', process.env.PROJECT_S3_REGION],
-				['<project_rootfolder>', process.env.PROJECT_ROOT_FOLDER]
+				['<project_secret>', process.env.PROJECT_AWS_SECRET_ACCESS_KEY_SEC]
 			]
 
 			const result = this.replaceAll(data, replacements)
@@ -52,7 +49,6 @@ class UpdateRBWorkflow {
 	replaceAll (str, replacements) {
 		for (let index = 0; index < replacements.length; index++) {
 			const pair = replacements[index]
-            console.log(" - replace pair", pair)
 			const regex = new RegExp(pair[0], 'g')
 			str = str.replace(regex, pair[1])
 		}
