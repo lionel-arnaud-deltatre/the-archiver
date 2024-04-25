@@ -12,8 +12,9 @@ const FileUtil = require('../util/FileUtil')
 const AWSGetVersions = require('../commands/s3/AWSGetVersions')
 
 class StoreFolder {
-	constructor (params) {
+	constructor (params, skipCommit) {
 		this.params = params
+        this.skipCommit = skipCommit
 
 		const filename = ArchiveUtil.getArchiveName(
 			params.appName,
@@ -89,6 +90,8 @@ class StoreFolder {
 
 		console.log('Step 3 - get available version on S3')
 		const updatedVersions = await this.getS3Versions()
+
+        if (this.skipCommit) return;
 
 		console.log('Step 4 - generate rollback workflow')
 		const rbFileUpdated = await this.updateRollback(updatedVersions)
