@@ -37,6 +37,8 @@ jobs:
 
       - name: Verify file existence
         run: |
+          echo "github.workspace: ${{ github.workspace }}"
+          echo "steps.fetcharchive.outputs.archivePath: ${{ steps.fetcharchive.outputs.archivePath }}"
           if [ -f "${{ steps.fetcharchive.outputs.archivePath }}" ]; then
             echo "File exists, proceeding with upload."
           else
