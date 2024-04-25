@@ -54,6 +54,8 @@ class FetchArchive {
 		// check zip exists
 		const zipAvailable = fs.existsSync(this.tempLocalFile)
 
+        console.log('check archive available locally:', zipAvailable);
+
 		if (!success || !zipAvailable) {
 			core.setOutput('errorMessage', 'could not fetch archive')
 		} else {
