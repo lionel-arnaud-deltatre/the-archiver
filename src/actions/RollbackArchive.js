@@ -22,7 +22,7 @@ class RollbackArchive {
 		this.archiveFile = path.join(process.env.GITHUB_WORKSPACE, 'dist', this.archiveName)
 
         const zipAvailable = fs.existsSync(this.archiveFile)
-        console.log('RollbackArchive check archive available locally:', archiveFile, zipAvailable);
+        console.log('RollbackArchive check archive available locally:', this.archiveFile, zipAvailable);
 	}
 
 	cleanVersion (str) {
