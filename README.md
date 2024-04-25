@@ -5,26 +5,29 @@
 
 This is the current name of the tool, but can be changed in the .env-sample
 
+This tools can be invoked through different actions set in GH actions:
+When calling this action, you can specify the `actionType` which will tell the tool what to do.
+
+Each `actionType` comes with a "signature" (variables and env vars), check the docs folder to know more
+
+Example
+  - name: Archive folder and Upload to S3
+    id: archivefolder
+    uses: lionel-arnaud-deltatre/the-archiver@main
+    with:
+        actionType: "store-folder"
+        version: ${{ env.SEMVER_VERSION }}
+        appName: "myrepo"
+        deviceType: "${{ github.event.inputs.device }}"
+        environment: "${{ github.event.inputs.environment }}"
+        folderPath: "dist"
+    env:
+        ARCHIVER_AWS_ACCESS_KEY_ID: ${{ secrets.PROJECT_AWS_ACCESS_KEY_ID }}
+        ARCHIVER_AWS_SECRET_ACCESS_KEY: ${{ secrets.PROJECT_AWS_SECRET_ACCESS_KEY }}
+        ARCHIVER_BUCKET_NAME: ${{ vars.PROJECT_BUCKET_NAME }}
+        ARCHIVER_S3_REGION: ${{ vars.PROJECT_S3_REGION }}
+
 
 ## why use Docker
 to avoid installing the dependencies of the action in the project repo calling the action
-
-
-## set the archiver AWS keys in your project
-Because the archiver scripts are executed in the project scope, you need to set repository secrets and variables
-
-*repository secrets:*
-    - PROJECT_AWS_ACCESS_KEY_ID             (used for rollback)
-    - PROJECT_AWS_SECRET_ACCESS_KEY         (used for rollback)
-    - ARCHIVER_AWS_ACCESS_KEY_ID            (used to archive)
-    - ARCHIVER_AWS_SECRET_ACCESS_KEY        (used to archive)
-
-*repository variables:*
-    - PROJECT_AWS_BUCKET_NAME:  name of the bucket where the project is deployed (used for rollback)
-    - PROJECT_S3_REGION:        region of the project bucket (optional)
-    - PROJECT_ROOT_FOLDER:      root folder where the project is deployed
-
-    - ARCHIVER_BUCKET_NAME:     name of the bucket to store the acrhives
-    - ARCHIVER_S3_REGION:       region of the bucket (optional, will use value from .env if not provided)
-    - ARCHIVER_ROOT_FOLDER:     root folder on the bucket (optional, will use value from .env if not provided)
 

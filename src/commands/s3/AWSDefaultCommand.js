@@ -17,15 +17,12 @@ class AWSDefaultCommand {
 	}
 
 	initStore () {  
-        // use provided root folder for archives, use internal is not
+        this.AWSkeyID = process.env.ARCHIVER_AWS_ACCESS_KEY_ID
+        this.AWSSecret = process.env.ARCHIVER_AWS_SECRET_ACCESS_KEY
+        this.bucketName = process.env.ARCHIVER_BUCKET_NAME
+        
+		this.bucketRegion = process.env.ARCHIVER_S3_REGION || process.env.AWS_DEFAULT_REGION
         this.rootFolder = process.env.ARCHIVER_ROOT_FOLDER || process.env.AWS_DEFAULT_ROOT_FOLDER
-
-        // use bucket vars if provided, use project if not
-		this.bucketName = process.env.ARCHIVER_BUCKET_NAME || process.env.PROJECT_AWS_BUCKET_NAME
-		this.bucketRegion = process.env.ARCHIVER_S3_REGION || process.env.PROJECT_S3_REGION || process.env.AWS_DEFAULT_REGION
-
-        this.AWSkeyID = process.env.ARCHIVER_AWS_ACCESS_KEY_ID || process.env.PROJECT_AWS_ACCESS_KEY_ID
-        this.AWSSecret = process.env.ARCHIVER_AWS_SECRET_ACCESS_KEY || process.env.PROJECT_AWS_SECRET_ACCESS_KEY
 	}
 
 	getS3ArchivePath (appName, device, env) {
