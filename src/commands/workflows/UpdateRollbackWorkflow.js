@@ -27,23 +27,16 @@ class UpdateRBWorkflow {
 		try {
 			const data = fs.readFileSync(srcFile, 'utf8')
 
-            console.log("check env keys")
-            console.log(" process.env.PROJECT_AWS_ACCESS_KEY_ID_SEC", process.env.PROJECT_AWS_ACCESS_KEY_ID_SEC)
-            console.log(" process.env.PROJECT_AWS_SECRET_ACCESS_KEY_SEC", process.env.PROJECT_AWS_SECRET_ACCESS_KEY_SEC)
-            console.log(" process.env.PROJECT_BUCKET_NAME_VAR", process.env.PROJECT_BUCKET_NAME_VAR)
-            console.log(" process.env.PROJECT_S3_REGION_VAR", process.env.PROJECT_S3_REGION_VAR)
-            console.log(" process.env.PROJECT_ROOT_FOLDER_VAR", process.env.PROJECT_ROOT_FOLDER_VAR)
-
 			const replacements = [
 				['<device_type>', params.deviceType],
 				['<env>', params.environment],
 				['<project_name>', params.appName],
 				['<versions_placeholder>', versionsString]
-				['<PROJECT_AWS_ACCESS_KEY_ID>', process.env.PROJECT_AWS_ACCESS_KEY_ID_SEC]
-				['<PROJECT_AWS_SECRET_ACCESS_KEY>', process.env.PROJECT_AWS_SECRET_ACCESS_KEY_SEC]
-				['<PROJECT_BUCKET_NAME>', process.env.PROJECT_BUCKET_NAME_VAR]
-				['<PROJECT_S3_REGION>', process.env.PROJECT_S3_REGION_VAR]
-				['<PROJECT_ROOT_FOLDER>', process.env.PROJECT_ROOT_FOLDER_VAR]
+				['<project_access_key>', process.env.PROJECT_AWS_ACCESS_KEY_ID_SEC]
+				['<project_secret>', process.env.PROJECT_AWS_SECRET_ACCESS_KEY_SEC]
+				['<project_bucketname>', process.env.PROJECT_BUCKET_NAME_VAR]
+				['<project_s3region>', process.env.PROJECT_S3_REGION_VAR]
+				['<project_rootfolder>', process.env.PROJECT_ROOT_FOLDER_VAR]
 			]
 
 			const result = this.replaceAll(data, replacements)
@@ -59,6 +52,7 @@ class UpdateRBWorkflow {
 	replaceAll (str, replacements) {
 		for (let index = 0; index < replacements.length; index++) {
 			const pair = replacements[index]
+            console.log(" - replace pair", pair)
 			const regex = new RegExp(pair[0], 'g')
 			str = str.replace(regex, pair[1])
 		}

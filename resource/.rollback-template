@@ -25,11 +25,11 @@ jobs:
           deviceType: <device_type>
           environment: <env>
         env:
-          PROJECT_AWS_ACCESS_KEY_ID: ${{ secrets.<PROJECT_AWS_ACCESS_KEY_ID> }}
-          PROJECT_AWS_SECRET_ACCESS_KEY: ${{ secrets.<PROJECT_AWS_SECRET_ACCESS_KEY> }}
-          PROJECT_BUCKET_NAME: ${{ vars.<PROJECT_BUCKET_NAME> }}
-          PROJECT_ROOT_FOLDER: ${{ vars.<PROJECT_ROOT_FOLDER> }}
-          PROJECT_S3_REGION: ${{ vars.<PROJECT_S3_REGION> }}   
+          PROJECT_AWS_ACCESS_KEY_ID: ${{ secrets.<project_access_key> }}
+          PROJECT_AWS_SECRET_ACCESS_KEY: ${{ secrets.<project_secret> }}
+          PROJECT_BUCKET_NAME: ${{ vars.<project_bucketname> }}
+          PROJECT_ROOT_FOLDER: ${{ vars.<project_rootfolder> }}
+          PROJECT_S3_REGION: ${{ vars.<project_s3region> }}   
           
           ARCHIVER_BUCKET_NAME: ${{ vars.ARCHIVER_BUCKET_NAME }}
           ARCHIVER_S3_REGION: ${{ vars.ARCHIVER_S3_REGION }}
