@@ -16,8 +16,8 @@ class AWSDownloadArchive extends AWSDefaultCommand {
 		const cmd = new ExecCommand(true)
 		const cmdline = [
 			s3dlScript,
-			process.env.ARCHIVER_AWS_ACCESS_KEY_ID,
-			process.env.ARCHIVER_AWS_SECRET_ACCESS_KEY,
+			this.AWSkeyID,
+			this.AWSSecret,
 
 			this.bucketName,
 			s3Path,

@@ -4,7 +4,7 @@ const AWSDefaultCommand = require('./AWSDefaultCommand')
 
 class AWSGetVersions extends AWSDefaultCommand {
 	constructor () {
-		super('versions')
+		super('getversions')
 	}
 
 	async execute (appName, device, env) {
@@ -16,8 +16,8 @@ class AWSGetVersions extends AWSDefaultCommand {
 		const cmd = new ExecCommand(true)
 		const cmdline = [
 			s3versionsScript,
-			process.env.ARCHIVER_AWS_ACCESS_KEY_ID,
-			process.env.ARCHIVER_AWS_SECRET_ACCESS_KEY,
+			this.AWSkeyID,
+			this.AWSSecret,
 
 			this.bucketName,
 			s3Path,
