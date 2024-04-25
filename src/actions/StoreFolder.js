@@ -5,7 +5,7 @@ const path = require('path')
 const ArchiveUtil = require('../util/ArchiveUtil')
 
 const ZipFolder = require('../commands/zip/ZipFolder')
-const UpdateRBWorkflow = require('../commands/workflows/UpdateWorkflow')
+const UpdateWorkflow = require('../commands/workflows/UpdateWorkflow')
 const CommitChanges = require('../commands/git/CommitChanges')
 const AWSUploadArchive = require('../commands/s3/AWSUploadArchive')
 const FileUtil = require('../util/FileUtil')
@@ -63,7 +63,7 @@ class StoreFolder {
 		)
 	}
 
-	async updateWorkflow (versions, mode) {
+	async updateWorkflowFile (versions, mode) {
 		const updateCmd = new UpdateWorkflow(mode)
 		return await updateCmd.execute(this.params, versions)
 	}
@@ -92,7 +92,7 @@ class StoreFolder {
 		const updatedVersions = await this.getS3Versions()
 
 		console.log('Step 4 - generate project workflow')
-		const wfFileUpdated = await this.updateWorkflow(updatedVersions, this.mode)
+		const wfFileUpdated = await this.updateWorkflowFile(updatedVersions, this.mode)
 		if (wfFileUpdated) {
 			await this.commitChanges()
 			console.log('changes commited, all good')
