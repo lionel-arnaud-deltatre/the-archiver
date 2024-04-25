@@ -5,16 +5,16 @@ const path = require('path')
 const ArchiveUtil = require('../util/ArchiveUtil')
 
 const ZipFolder = require('../commands/zip/ZipFolder')
-const UpdateRBWorkflow = require('../commands/workflows/UpdateRollbackWorkflow')
+const UpdateRBWorkflow = require('../commands/workflows/UpdateWorkflow')
 const CommitChanges = require('../commands/git/CommitChanges')
 const AWSUploadArchive = require('../commands/s3/AWSUploadArchive')
 const FileUtil = require('../util/FileUtil')
 const AWSGetVersions = require('../commands/s3/AWSGetVersions')
 
 class StoreFolder {
-	constructor (params, skipCommit) {
+	constructor (params, mode) {
 		this.params = params
-        this.skipCommit = skipCommit
+		this.mode = mode
 
 		const filename = ArchiveUtil.getArchiveName(
 			params.appName,
@@ -63,8 +63,8 @@ class StoreFolder {
 		)
 	}
 
-	async updateRollback (versions) {
-		const updateCmd = new UpdateRBWorkflow()
+	async updateWorkflow (versions, mode) {
+		const updateCmd = new UpdateWorkflow(mode)
 		return await updateCmd.execute(this.params, versions)
 	}
 
@@ -91,14 +91,13 @@ class StoreFolder {
 		console.log('Step 3 - get available version on S3')
 		const updatedVersions = await this.getS3Versions()
 
-        if (this.skipCommit) return;
-
-		console.log('Step 4 - generate rollback workflow')
-		const rbFileUpdated = await this.updateRollback(updatedVersions)
-		if (rbFileUpdated) {
+		console.log('Step 4 - generate project workflow')
+		const wfFileUpdated = await this.updateWorkflow(updatedVersions, this.mode)
+		if (wfFileUpdated) {
 			await this.commitChanges()
 			console.log('changes commited, all good')
 		}
+      
 	}
 }
 

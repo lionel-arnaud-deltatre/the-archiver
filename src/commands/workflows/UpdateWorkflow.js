@@ -1,31 +1,38 @@
 const fs = require('fs')
 const path = require('path')
 
-class UpdateRBWorkflow {
+class UpdateWorkflow {
+	constructor(mode) {
+		this.mode = mode
+	}
+
+	getWorkflowSettings(params)
+	{
+		let template = '';
+		let wf_prefix = '';
+		switch (this.mode) {
+		case "rollback": template = '.rollback-template'; wf_prefix = 'rollback'; break;
+		case "download": template = '.download-template'; wf_prefix = 'download'; break;
+		}
+		return {
+			srcFile: path.join(__dirname, '../../../resource/', template),
+			destFile: path.join( process.env.GITHUB_WORKSPACE, `.github/workflows/${wf_prefix}_${params.deviceType}_${params.environment}.yml`)
+		}
+	}
+
 	async execute (params, versionsArray) {
-		const versionsString = versionsArray
-			.map(
-				(item) =>
-					`- "${item.version} (${this.formatDate(item.lastModified)} - ${this.bytesToMB(item.size)})"`
-			).join('\n          ')
-		console.log('UpdateRBWorkflow', versionsString)
+		const versionsString = versionsArray.map( (item) =>	`- "${item.version} (${this.formatDate(item.lastModified)} - ${this.bytesToMB(item.size)})"`			).join('\n          ')
+		console.log('Update/create Workflow', versionsString)
 
-		const srcFile = path.join(
-			__dirname,
-			'../../../resource/.rollback-template'
-		)
-		const destFile = path.join(
-			process.env.GITHUB_WORKSPACE,
-			`.github/workflows/rollback_${params.deviceType}_${params.environment}.yml`
-		)
-
-		if (!fs.existsSync(srcFile)) {
+		const config = this.getWorkflowSettings(params);
+		
+		if (!fs.existsSync(config.srcFile)) {
 			console.error('src file does not exists')
 			return false
 		}
 
 		try {
-			const data = fs.readFileSync(srcFile, 'utf8')
+			const data = fs.readFileSync(config.srcFile, 'utf8')
 
 			const replacements = [
 				['<device_type>', params.deviceType],
@@ -37,7 +44,7 @@ class UpdateRBWorkflow {
 			]
 
 			const result = this.replaceAll(data, replacements)
-			fs.writeFileSync(destFile, result)
+			fs.writeFileSync(config.destFile, result)
 
 			return true
 		} catch (err) {
@@ -85,4 +92,4 @@ class UpdateRBWorkflow {
 	}
 }
 
-module.exports = UpdateRBWorkflow
+module.exports = UpdateWorkflow

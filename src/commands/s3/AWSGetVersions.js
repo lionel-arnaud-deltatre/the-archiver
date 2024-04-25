@@ -26,14 +26,14 @@ class AWSGetVersions extends AWSDefaultCommand {
 		const res = await cmd.execute(cmdline)
 
 		if (res.error === 0) {
-            try {
-                const data = JSON.parse(res.data)
-                return this.extractRecentFiles(data.Contents)
-            }
-            catch (err) {
-                console.error("cannot parse versions", res)
-                return []
-            }
+			try {
+				const data = JSON.parse(res.data)
+				return this.extractRecentFiles(data.Contents)
+			}
+			catch (err) {
+				console.error("cannot parse versions", res)
+				return []
+			}
 		}
 
 		return []

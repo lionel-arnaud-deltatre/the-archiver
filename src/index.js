@@ -19,7 +19,8 @@ async function run () {
 
 		let action = null
 		switch (actionType) {
-		case 'store-folder': action = new StoreFolder(params); break
+		case 'store-folder-with-rollback': action = new StoreFolder(params, "rollback"); break;
+		case 'store-folder-with-download': action = new StoreFolder(params, "download"); break;
 		case 'fetch-archive': action = new FetchArchive(params); break
 
 		default:
