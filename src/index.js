@@ -3,6 +3,7 @@ require('dotenv').config()
 const core = require('@actions/core')
 const StoreFolder = require('./actions/StoreFolder')
 const FetchArchive = require('./actions/FetchArchive')
+const RollbackArchive = require('./actions/RollbackArchive')
 
 async function run () {
 	try {
