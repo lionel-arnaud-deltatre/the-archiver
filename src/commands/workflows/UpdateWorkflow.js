@@ -34,7 +34,7 @@ class UpdateWorkflow {
 		try {
 			const data = fs.readFileSync(config.srcFile, 'utf8')
 
-			const replacements = [
+			let replacements = [
 				['<device_type>', params.deviceType],
 				['<env>', params.environment],
 				['<project_name>', params.appName],
@@ -42,6 +42,15 @@ class UpdateWorkflow {
 				['<project_access_key>', process.env.PROJECT_AWS_ACCESS_KEY_ID_SEC],
 				['<project_secret>', process.env.PROJECT_AWS_SECRET_ACCESS_KEY_SEC]
 			]
+
+            if (this.mode === "rollback") {
+                const downloadReplacements = [
+                    ['<project_bucketname>', process.env.PROJECT_BUCKET_NAME],
+                    ['<project_s3region>', process.env.PROJECT_S3_REGION],
+                    ['<project_rootfolder>', process.env.PROJECT_ROOT_FOLDER]
+                ]
+                replacements = replacements.concat(downloadReplacements);
+            }
 
 			const result = this.replaceAll(data, replacements)
 			fs.writeFileSync(config.destFile, result)
