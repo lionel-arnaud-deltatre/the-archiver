@@ -57,8 +57,10 @@ class FetchArchive {
         console.log('check archive available locally:', zipAvailable);
 
 		if (!success || !zipAvailable) {
+            console.log('===> KO ');
 			core.setOutput('errorMessage', 'could not fetch archive')
 		} else {
+            console.log('===> OK ');
 			core.setOutput('archiveName', this.archiveName)
 			core.setOutput('archivePath', this.tempLocalFile)
 		}
