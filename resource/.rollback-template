@@ -35,11 +35,20 @@ jobs:
           ARCHIVER_S3_REGION: ${{ vars.ARCHIVER_S3_REGION }}
           ARCHIVER_ROOT_FOLDER: ${{ vars.ARCHIVER_ROOT_FOLDER }}          
 
+      - name: Verify file existence
+        run: |
+          if [ -f "${{ steps.fetcharchive.outputs.archivePath }}" ]; then
+            echo "File exists, proceeding with upload."
+          else
+            echo "File does not exist in the expected path."
+            exit 1
+          fi
+
       - name: Upload artifact in Github 
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.fetcharchive.outputs.archiveName }}
-          path: ${{ steps.fetcharchive.outputs.archivePath }}
+          name: "${{ steps.fetcharchive.outputs.archiveName }}"
+          path: "${{ steps.fetcharchive.outputs.archivePath }}"
           retention-days: 5
 
       - name: Rollback archive to project bucket
