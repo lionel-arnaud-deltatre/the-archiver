@@ -20,6 +20,9 @@ class RollbackArchive {
 
         // WARNING: you need to call this action after FetchArchive
 		this.archiveFile = path.join(process.env.GITHUB_WORKSPACE, 'dist', this.archiveName)
+
+        const zipAvailable = fs.existsSync(this.archiveFile)
+        console.log('RollbackArchive check archive available locally:', archiveFile, zipAvailable);
 	}
 
 	cleanVersion (str) {
