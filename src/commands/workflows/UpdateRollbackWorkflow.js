@@ -27,6 +27,13 @@ class UpdateRBWorkflow {
 		try {
 			const data = fs.readFileSync(srcFile, 'utf8')
 
+            console.log("check env keys")
+            console.log(" process.env.PROJECT_AWS_ACCESS_KEY_ID_SEC", process.env.PROJECT_AWS_ACCESS_KEY_ID_SEC)
+            console.log(" process.env.PROJECT_AWS_SECRET_ACCESS_KEY_SEC", process.env.PROJECT_AWS_SECRET_ACCESS_KEY_SEC)
+            console.log(" process.env.PROJECT_BUCKET_NAME_VAR", process.env.PROJECT_BUCKET_NAME_VAR)
+            console.log(" process.env.PROJECT_S3_REGION_VAR", process.env.PROJECT_S3_REGION_VAR)
+            console.log(" process.env.PROJECT_ROOT_FOLDER_VAR", process.env.PROJECT_ROOT_FOLDER_VAR)
+
 			const replacements = [
 				['<device_type>', params.deviceType],
 				['<env>', params.environment],
