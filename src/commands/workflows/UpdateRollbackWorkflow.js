@@ -34,9 +34,9 @@ class UpdateRBWorkflow {
 				['<versions_placeholder>', versionsString],
 				['<project_access_key>', process.env.PROJECT_AWS_ACCESS_KEY_ID_SEC],
 				['<project_secret>', process.env.PROJECT_AWS_SECRET_ACCESS_KEY_SEC],
-				['<project_bucketname>', process.env.PROJECT_BUCKET_NAME_VAR],
-				['<project_s3region>', process.env.PROJECT_S3_REGION_VAR],
-				['<project_rootfolder>', process.env.PROJECT_ROOT_FOLDER_VAR]
+				['<project_bucketname>', process.env.PROJECT_BUCKET_NAME],
+				['<project_s3region>', process.env.PROJECT_S3_REGION],
+				['<project_rootfolder>', process.env.PROJECT_ROOT_FOLDER]
 			]
 
 			const result = this.replaceAll(data, replacements)
