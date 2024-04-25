@@ -22,6 +22,7 @@ async function run () {
 		case 'store-folder-with-rollback': action = new StoreFolder(params, "rollback"); break;
 		case 'store-folder-with-download': action = new StoreFolder(params, "download"); break;
 		case 'fetch-archive': action = new FetchArchive(params); break
+		case 'rollback-archive': action = new RollbackArchive(params); break
 
 		default:
 			break
