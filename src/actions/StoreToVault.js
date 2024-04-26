@@ -72,7 +72,7 @@ class StoreToVault {
     {
         let invalid = false;
         if (!this.isFile && !fs.existsSync(this.srcContent)) {
-			core.setOutput('errorMessage', 'source is invalid: ' + this.srcContent)
+            core.setFailed('source is invalid: ' + this.srcContent)
 			invalid = true
 		}
         return invalid

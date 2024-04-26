@@ -10,13 +10,17 @@ class ZipContent {
 			return false
 		}
 
-		const zipScript = path.join(__dirname, '../../../resource/zip_folder.sh')
-
 		const cmd = new ExecCommand()
-		const cmdline = [zipScript, outputFile, sourceDir]
+		const cmdline = [getScript(isFile), outputFile, sourceDir]
 		const res = await cmd.execute(cmdline)
 		return res.error === 0
 	}
+
+    getScript(isFile)
+    {
+        const script = isFile ? 'zip_file' : 'zip_folder';
+        return path.join(__dirname, `../../../resource/${script}.sh`);
+    }
 }
 
 module.exports = ZipContent
