@@ -16,6 +16,7 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 # Verify installations
 RUN aws --version
 RUN zip --version
+RUN unzip --version
 
 # Setting the working directory
 WORKDIR /usr/src/app
