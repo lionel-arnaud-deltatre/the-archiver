@@ -2,8 +2,8 @@
 FROM node:latest
 
 # Install zip + unzip + curl
-RUN apt-get update && \
-    apt-get install -y zip unzip curl && \
+RUN apt-get update -qq && \
+    apt-get install -y -qq zip unzip curl && \
     rm -rf /var/lib/apt/lists/*
 
 # Install AWS CLI v2

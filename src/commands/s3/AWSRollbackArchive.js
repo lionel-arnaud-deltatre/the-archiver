@@ -12,21 +12,16 @@ class AWSRollbackArchive extends AWSDefaultCommand {
 		const s3rollbackScript = path.join(__dirname, '../../../resource/aws_s3_rollback.sh')
 		
 		console.log('execute s3 rollback', buildPath)
-        fs.readdirSync(buildPath).forEach(file => {
-            console.log(` - ${file}`);
-          });
-
-        return true
-
+      
 		const cmd = new ExecCommand(true)
 		const cmdline = [
-			s3uploadScript,
+			s3rollbackScript,
 			this.AWSkeyID,
 			this.AWSSecret,
 
-			zipPath,
+			buildPath,
 			this.bucketName,
-			s3Path,
+			this.rootFolder,
 			this.bucketRegion
 		]
 		const res = await cmd.execute(cmdline)
