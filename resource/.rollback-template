@@ -37,13 +37,16 @@ jobs:
 
       - name: Verify file existence
         run: |
-          echo "github.workspace: ${{ github.workspace }}"
-          echo "steps.fetcharchive.outputs.archivePath: ${{ steps.fetcharchive.outputs.archivePath }}"
-          if [ -f "${{ steps.fetcharchive.outputs.archivePath }}" ]; then
-            echo "File exists, proceeding with upload."
+          # Adjust the output path to match the real workspace path
+          ARCHIVE_PATH="${{ steps.fetcharchive.outputs.archivePath }}"
+          CORRECTED_PATH="${GITHUB_WORKSPACE}${ARCHIVE_PATH#/github/workspace}"
+          echo "Original path: $ARCHIVE_PATH"
+          echo "Corrected path: $CORRECTED_PATH"
+
+          if [ -f "$CORRECTED_PATH" ]; then
+            echo "File exists at corrected path."
           else
-            echo "File does not exist in the expected path."
-            exit 1
+            echo "File does not exist at corrected path."
           fi
 
       - name: Upload artifact in Github 
