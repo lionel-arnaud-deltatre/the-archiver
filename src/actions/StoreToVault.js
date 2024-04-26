@@ -4,7 +4,7 @@ const path = require('path')
 
 const ArchiveUtil = require('../util/ArchiveUtil')
 
-const ZipFolder = require('../commands/zip/ZipFolder')
+const ZipContent = require('../commands/zip/ZipContent')
 const UpdateWorkflow = require('../commands/workflows/UpdateWorkflow')
 const CommitChanges = require('../commands/git/CommitChanges')
 const AWSUploadArchive = require('../commands/s3/AWSUploadArchive')
@@ -34,7 +34,7 @@ class StoreToVault {
 	}
 
 	async zip () {
-		const zipCmd = new ZipFolder() 
+		const zipCmd = new ZipContent() 
 		return await zipCmd.execute(this.srcContent, this.archivePath)
 	}
 

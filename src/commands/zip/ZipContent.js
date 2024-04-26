@@ -3,9 +3,9 @@ const path = require('path')
 
 const ExecCommand = require('../../util/ExecCommand')
 
-class ZipFolder {
-	async execute (sourceDir, outputFile) {
-		if (!fs.existsSync(sourceDir)) {
+class ZipContent {
+	async execute (sourceDir, outputFile, isFile = false) {
+		if (!isFile && !fs.existsSync(sourceDir)) {
 			console.error('ERROR zipping: folder does not exist', sourceDir)
 			return false
 		}
@@ -19,4 +19,4 @@ class ZipFolder {
 	}
 }
 
-module.exports = ZipFolder
+module.exports = ZipContent
