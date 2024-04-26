@@ -69,9 +69,3 @@ jobs:
           PROJECT_BUCKET_NAME: "<project_bucketname>"
           PROJECT_S3_REGION: "<project_s3region>"
           PROJECT_ROOT_FOLDER: "<project_rootfolder>"
-          
-          ARCHIVER_AWS_ACCESS_KEY_ID: ${{ secrets.ARCHIVER_AWS_ACCESS_KEY_ID }}
-          ARCHIVER_AWS_SECRET_ACCESS_KEY: ${{ secrets.ARCHIVER_AWS_SECRET_ACCESS_KEY }}
-          ARCHIVER_BUCKET_NAME: ${{ vars.ARCHIVER_BUCKET_NAME }}
-          ARCHIVER_S3_REGION: ${{ vars.ARCHIVER_S3_REGION }}
-          ARCHIVER_ROOT_FOLDER: ${{ vars.ARCHIVER_ROOT_FOLDER }}
