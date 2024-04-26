@@ -40,4 +40,4 @@ jobs:
         with:
           name: ${{ steps.fetcharchive.outputs.archiveName }}
           path: ${{ steps.fetcharchive.outputs.archivePath }}
-          retention-days: 5
+          retention-days: 1

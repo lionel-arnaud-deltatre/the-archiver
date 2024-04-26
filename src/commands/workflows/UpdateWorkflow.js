@@ -11,8 +11,8 @@ class UpdateWorkflow {
 		let template = '';
 		let wf_prefix = '';
 		switch (this.mode) {
-		case "rollback": template = '.rollback-template'; wf_prefix = 'rollback'; break;
-		case "download": template = '.download-template'; wf_prefix = 'download'; break;
+            case "rollback": template = '.rollback-template'; wf_prefix = 'rollback'; break;
+            case "download": template = '.download-template'; wf_prefix = 'download'; break;
 		}
 		return {
 			srcFile: path.join(__dirname, '../../../resource/', template),
