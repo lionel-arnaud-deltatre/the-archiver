@@ -15,6 +15,7 @@ class StoreToVault {
 	constructor (params, mode, isFile = false) {
 		this.params = params
 		this.mode = mode
+        this.isFile = isFile
         this.srcContent = isFile ? this.params.filePath : this.params.folderPath
 
 		const filename = ArchiveUtil.getArchiveName(
@@ -70,7 +71,7 @@ class StoreToVault {
     invalidAction()
     {
         let invalid = false;
-        if (!fs.existsSync(this.srcContent)) {
+        if (!this.isFile && !fs.existsSync(this.srcContent)) {
 			core.setOutput('errorMessage', 'source is invalid: ' + this.srcContent)
 			invalid = true
 		}
@@ -84,7 +85,7 @@ class StoreToVault {
             return;
         }
 
-		console.log('Step 1 - zip folder', this.srcContent, 'to', this.archivePath)
+		console.log('Step 1 - zip content', this.srcContent, 'to', this.archivePath)
 		const zipped = await this.zip()
 		if (zipped) {
 			console.log('Step 2 - upload zip to S3')
