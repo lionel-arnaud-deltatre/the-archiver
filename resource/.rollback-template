@@ -15,7 +15,7 @@ on:
           <versions_placeholder>
 
 jobs:
-  rollback:
+  rollback-<device_type>-<env>:
     runs-on: ubuntu-latest
     steps:
 
@@ -52,7 +52,7 @@ jobs:
         with:
           name: "${{ steps.fetcharchive.outputs.archiveName }}"
           path: "${{ env.CORRECTED_PATH }}"
-          retention-days: 5
+          retention-days: 1
 
       - name: Rollback archive to project bucket
         id: rollbackarchive
