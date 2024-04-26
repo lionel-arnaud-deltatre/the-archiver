@@ -13,8 +13,4 @@ echo "and zip $ITEM"
 # Change directory
 cd "$DIST_PATH" || { echo "Failed to change directory to $DIST_PATH"; exit 1; }
 
-# List files in the directory to debug
-ls
-
-# Use the wildcard to zip all APK files in the directory
-zip -q "$1" "$ITEM"
+zip -q $1 . --include '$ITEM'
