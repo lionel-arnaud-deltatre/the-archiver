@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Fetch archive and store it
+      - name: "Fetch archive (version ${{ github.event.inputs.version }}) and store it"
         id: fetcharchive
         uses: lionel-arnaud-deltatre/the-archiver@main
         with:
