@@ -33,7 +33,7 @@ class RollbackArchive {
 
 	async unzipArchive () {
         const unzip = new UnZipArchive();
-        return await unzip.execute();
+        return await unzip.execute(this.archiveFile, this.unzippedFolder);
 	}
 
     async copyLocalToS3 () {
@@ -59,6 +59,7 @@ class RollbackArchive {
             return;
         }        
 
+        console.error('executing rollback')
         const unzipped = await this.unzipArchive();
         await this.copyLocalToS3();
 	}
