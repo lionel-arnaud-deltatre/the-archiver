@@ -35,9 +35,21 @@ jobs:
           ARCHIVER_S3_REGION: ${{ vars.ARCHIVER_S3_REGION }}
           ARCHIVER_ROOT_FOLDER: ${{ vars.ARCHIVER_ROOT_FOLDER }}          
 
+      - name: Verify file existence and set corrected path
+        run: |
+          ARCHIVE_PATH="${{ steps.fetcharchive.outputs.archivePath }}"
+          CORRECTED_PATH="${GITHUB_WORKSPACE}${ARCHIVE_PATH#/github/workspace}"
+          echo "CORRECTED_PATH=$CORRECTED_PATH" >> $GITHUB_ENV
+          if [ -f "$CORRECTED_PATH" ]; then
+            echo "File exists at corrected path."
+          else
+            echo "File does not exist at corrected path."
+            exit 1
+          fi
+
       - name: Upload artifact in Github 
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.fetcharchive.outputs.archiveName }}
-          path: ${{ steps.fetcharchive.outputs.archivePath }}
+          path: "${{ env.CORRECTED_PATH }}"
           retention-days: 1
