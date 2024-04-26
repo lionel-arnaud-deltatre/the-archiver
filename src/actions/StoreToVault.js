@@ -28,6 +28,7 @@ class StoreToVault {
 		FileUtil.ensureDirSync(distPath)
 
 		this.archivePath = path.join(distPath, filename)
+		console.log('this.srcContent', this.srcContent)
 		console.log('this.archivePath', this.archivePath)
 	}
 
