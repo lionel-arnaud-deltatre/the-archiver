@@ -17,5 +17,10 @@ cd "$DIST_PATH" || { echo "Failed to change directory to $DIST_PATH"; exit 1; }
 echo "Listing files in the directory:"
 ls
 
+files=( ./$ITEM )
+FILE="${files[0]}"
+
+echo "zipping file $FILE"
+
 # Use the wildcard to zip all APK files in the directory using double quotes for variables
-zip -q "$1" . --include "$ITEM"
+zip -q "$1" "$FILE"
