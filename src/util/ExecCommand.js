@@ -14,19 +14,19 @@ class ExecCommand {
 			const buffer = []
 
 			process.stdout.on('data', (data) => {
-				// console.log("stdout: " + data.toString());
+				console.log("stdout: " + data.toString());
 				buffer.push(data.toString())
 			})
 
 			if (!this.ignoreError) {
 				process.stderr.on('data', (data) => {
-					// console.log("stderr: " + data.toString());
+					console.log("stderr: " + data.toString());
 					resolve({ error: 1, errorMsg: data.toString() })
 				})
 			}
 
 			process.on('exit', (code) => {
-				// console.log("child process exited with code " + code.toString());
+				console.log("child process exited with code " + code.toString());
 				resolve({ error: 0, data: buffer })
 			})
 		})
