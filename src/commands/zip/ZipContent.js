@@ -4,14 +4,14 @@ const path = require('path')
 const ExecCommand = require('../../util/ExecCommand')
 
 class ZipContent {
-	async execute (sourceDir, outputFile, isFile = false) {
-		if (!isFile && !fs.existsSync(sourceDir)) {
-			console.error('ERROR zipping: folder does not exist', sourceDir)
+	async execute (sourceContent, outputFile, isFile = false) {
+		if (!isFile && !fs.existsSync(sourceContent)) {
+			console.error('ERROR zipping: folder does not exist', sourceContent)
 			return false
 		}
 
 		const cmd = new ExecCommand()
-		const cmdline = [this.getScript(isFile), outputFile, sourceDir]
+		const cmdline = [this.getScript(isFile), outputFile, sourceContent]
 		const res = await cmd.execute(cmdline)
 		return res.error === 0
 	}
