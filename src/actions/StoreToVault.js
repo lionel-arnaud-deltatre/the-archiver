@@ -11,10 +11,11 @@ const AWSUploadArchive = require('../commands/s3/AWSUploadArchive')
 const FileUtil = require('../util/FileUtil')
 const AWSGetVersions = require('../commands/s3/AWSGetVersions')
 
-class StoreFolder {
-	constructor (params, mode) {
+class StoreToVault {
+	constructor (params, mode, isFile = false) {
 		this.params = params
 		this.mode = mode
+        this.srcContent = isFile ? this.params.filePath : this.params.folderPath
 
 		const filename = ArchiveUtil.getArchiveName(
 			params.appName,
@@ -31,8 +32,8 @@ class StoreFolder {
 	}
 
 	async zip () {
-		const zipCmd = new ZipFolder()
-		return await zipCmd.execute(this.params.folderPath, this.archivePath)
+		const zipCmd = new ZipFolder() 
+		return await zipCmd.execute(this.srcContent, this.archivePath)
 	}
 
 	async uploadToS3 () {
@@ -68,8 +69,8 @@ class StoreFolder {
     invalidAction()
     {
         let invalid = false;
-        if (!fs.existsSync(this.params.folderPath)) {
-			core.setOutput('errorMessage', 'source folder is invalid')
+        if (!fs.existsSync(this.srcContent)) {
+			core.setOutput('errorMessage', 'source is invalid: ' + this.srcContent)
 			invalid = true
 		}
         return invalid
@@ -82,7 +83,7 @@ class StoreFolder {
             return;
         }
 
-		console.log('Step 1 - zip folder', this.params.folderPath, 'to', this.archivePath)
+		console.log('Step 1 - zip folder', this.srcContent, 'to', this.archivePath)
 		const zipped = await this.zip()
 		if (zipped) {
 			console.log('Step 2 - upload zip to S3')
@@ -102,4 +103,4 @@ class StoreFolder {
 	}
 }
 
-module.exports = StoreFolder
+module.exports = StoreToVault

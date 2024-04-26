@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 const core = require('@actions/core')
-const StoreFolder = require('./actions/StoreFolder')
+const StoreToVault = require('./actions/StoreToVault')
 const FetchArchive = require('./actions/FetchArchive')
 const RollbackArchive = require('./actions/RollbackArchive')
 
@@ -20,8 +20,9 @@ async function run () {
 
 		let action = null
 		switch (actionType) {
-		case 'store-folder-with-rollback': action = new StoreFolder(params, "rollback"); break;
-		case 'store-folder-with-download': action = new StoreFolder(params, "download"); break;
+		case 'store-folder-with-rollback': action = new StoreToVault(params, "rollback"); break;
+		case 'store-folder-with-download': action = new StoreToVault(params, "download"); break;
+		case 'store-file-with-download': action = new StoreToVault(params, "download", true); break;
 		case 'fetch-archive': action = new FetchArchive(params); break
 		case 'rollback-archive': action = new RollbackArchive(params); break
 
