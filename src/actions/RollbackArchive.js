@@ -3,6 +3,8 @@ const fs = require('fs')
 const path = require('path')
 
 const ArchiveUtil = require('../util/ArchiveUtil')
+const UnZipArchive = require('../commands/zip/UnZipArchive')
+const { error } = require('console')
 
 class RollbackArchive {
 	constructor (params) {
@@ -19,10 +21,9 @@ class RollbackArchive {
 		)
 
         // WARNING: you need to call this action after FetchArchive
-		this.archiveFile = path.join(process.env.GITHUB_WORKSPACE, 'dist', this.archiveName)
-
-        const zipAvailable = fs.existsSync(this.archiveFile)
-        console.log('RollbackArchive check archive available locally:', this.archiveFile, zipAvailable);
+        const rootDist = path.join(process.env.GITHUB_WORKSPACE, 'dist')
+		this.archiveFile = path.join(rootDist, this.archiveName)
+		this.unzippedFolder = path.join(rootDist, 'unzipped')
 	}
 
 	cleanVersion (str) {
@@ -31,19 +32,34 @@ class RollbackArchive {
 	}
 
 	async unzipArchive () {
-		console.log('unzip archive')
+        const unzip = new UnZipArchive();
+        return await unzip.execute();
 	}
 
     async copyLocalToS3 () {
 		console.log('copy files: local to S3')
 	}
 
+    validateAction()
+    {
+        let errored = false;
+        const zipAvailable = fs.existsSync(this.archiveFile)
+        if (!zipAvailable) {
+            core.setFailed('Archive file is not available', this.archiveFile)
+            errored = true
+        }
 
+        return errored
+    }
+    
 	async execute () {
-		console.log('execute rollback archive to S3')
-		console.log('zipped build: ', this.archiveFile)
+        if (!this.validateAction())
+        {
+            console.error('cancelling action, something went wrong')
+            return;
+        }        
 
-        await this.unzipArchive();
+        const unzipped = await this.unzipArchive();
         await this.copyLocalToS3();
 	}
 }

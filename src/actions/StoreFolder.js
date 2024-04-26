@@ -30,14 +30,6 @@ class StoreFolder {
 		console.log('this.archivePath', this.archivePath)
 	}
 
-	validParameters () {
-		if (!fs.existsSync(this.params.folderPath)) {
-			core.setOutput('errorMessage', 'source folder is invalid')
-			return false
-		}
-		return true
-	}
-
 	async zip () {
 		const zipCmd = new ZipFolder()
 		return await zipCmd.execute(this.params.folderPath, this.archivePath)
@@ -73,13 +65,22 @@ class StoreFolder {
 		return await changes.execute()
 	}
 
-	async execute () {
-		console.log('execute action store')
-
-		if (!this.validParameters()) {
-			core.setFailed('Action failed due to an error.')
-			return
+    validateAction()
+    {
+        let errored = false;
+        if (!fs.existsSync(this.params.folderPath)) {
+			core.setOutput('errorMessage', 'source folder is invalid')
+			errored = true
 		}
+        return errored
+    }
+
+	async execute () {
+        if (!this.validateAction())
+        {
+            console.error('cancelling action, something went wrong')
+            return;
+        }
 
 		console.log('Step 1 - zip folder', this.params.folderPath, 'to', this.archivePath)
 		const zipped = await this.zip()
