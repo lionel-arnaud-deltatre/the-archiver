@@ -11,7 +11,7 @@ class ZipContent {
 		}
 
 		const cmd = new ExecCommand()
-		const cmdline = [getScript(isFile), outputFile, sourceDir]
+		const cmdline = [this.getScript(isFile), outputFile, sourceDir]
 		const res = await cmd.execute(cmdline)
 		return res.error === 0
 	}
