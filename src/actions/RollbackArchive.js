@@ -61,9 +61,11 @@ class RollbackArchive {
             return;
         }        
 
-        console.error('executing rollback')
+        console.log('executing rollback')
         const unzipped = await this.unzipArchive();
-        await this.copyLocalToS3();
+        console.log(' - unzipped ? ', unzipped)
+        const replaced = await this.copyLocalToS3();
+        console.log(' - s3 replaced ? ', replaced)
 	}
 }
 
