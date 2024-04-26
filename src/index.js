@@ -15,7 +15,7 @@ async function run () {
 			deviceType: core.getInput('deviceType'),
 			environment: core.getInput('environment'),
 			folderPath: `${process.env.GITHUB_WORKSPACE}/${core.getInput('folderPath')}`,
-			filePath: core.getInput('filePath')
+			filePath: `${process.env.GITHUB_WORKSPACE}/${core.getInput('filePath')}`
 		}
 
 		let action = null
