@@ -65,18 +65,18 @@ class StoreFolder {
 		return await changes.execute()
 	}
 
-    validateAction()
+    invalidAction()
     {
-        let errored = false;
+        let invalid = false;
         if (!fs.existsSync(this.params.folderPath)) {
 			core.setOutput('errorMessage', 'source folder is invalid')
-			errored = true
+			invalid = true
 		}
-        return errored
+        return invalid
     }
 
 	async execute () {
-        if (!this.validateAction())
+        if (this.invalidAction())
         {
             console.error('cancelling action, something went wrong')
             return;

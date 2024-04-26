@@ -40,20 +40,20 @@ class RollbackArchive {
 		console.log('copy files: local to S3')
 	}
 
-    validateAction()
+    invalidAction()
     {
-        let errored = false;
+        let invalid = false;
         const zipAvailable = fs.existsSync(this.archiveFile)
         if (!zipAvailable) {
             core.setFailed('Archive file is not available', this.archiveFile)
-            errored = true
+            invalid = true
         }
 
-        return errored
+        return invalid
     }
     
 	async execute () {
-        if (!this.validateAction())
+        if (this.invalidAction())
         {
             console.error('cancelling action, something went wrong')
             return;
