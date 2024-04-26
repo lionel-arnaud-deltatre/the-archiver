@@ -13,5 +13,7 @@ echo "and zip $ITEM"
 # Change directory
 cd "$DIST_PATH" || { echo "Failed to change directory to $DIST_PATH"; exit 1; }
 
+ls
+
 # Zip the items
 zip "$1" "$ITEM"
