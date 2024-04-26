@@ -35,7 +35,7 @@ class StoreToVault {
 
 	async zip () {
 		const zipCmd = new ZipContent() 
-		return await zipCmd.execute(this.srcContent, this.archivePath)
+		return await zipCmd.execute(this.srcContent, this.archivePath, this.isFile)
 	}
 
 	async uploadToS3 () {
