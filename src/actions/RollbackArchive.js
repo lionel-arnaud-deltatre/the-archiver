@@ -5,6 +5,7 @@ const path = require('path')
 const ArchiveUtil = require('../util/ArchiveUtil')
 const UnZipArchive = require('../commands/zip/UnZipArchive')
 const { error } = require('console')
+const AWSRollbackArchive = require('../commands/s3/AWSRollbackArchive')
 
 class RollbackArchive {
 	constructor (params) {
@@ -37,7 +38,8 @@ class RollbackArchive {
 	}
 
     async copyLocalToS3 () {
-		console.log('copy files: local to S3')
+        const rbCmd = new AWSRollbackArchive()
+		return await rbCmd.execute( this.unzippedFolder );
 	}
 
     invalidAction()

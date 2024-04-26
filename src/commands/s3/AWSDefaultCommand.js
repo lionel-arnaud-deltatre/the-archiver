@@ -4,6 +4,8 @@ class AWSDefaultCommand {
 		case "download": this.initStore(); break;
 		case "getversions": this.initStore(); break;
 		case "upload": this.initStore(); break;
+
+        case "rollback": this.initProject(); break;
         
 		default:
 			break;
@@ -23,6 +25,15 @@ class AWSDefaultCommand {
         
 		this.bucketRegion = process.env.ARCHIVER_S3_REGION || process.env.AWS_DEFAULT_REGION
 		this.rootFolder = process.env.ARCHIVER_ROOT_FOLDER || process.env.AWS_DEFAULT_ROOT_FOLDER
+	}
+
+    initProject () {  
+		this.AWSkeyID = process.env.PROJECT_AWS_ACCESS_KEY_ID
+		this.AWSSecret = process.env.PROJECT_AWS_SECRET_ACCESS_KEY
+		this.bucketName = process.env.PROJECT_BUCKET_NAME
+        
+		this.bucketRegion = process.env.PROJECT_S3_REGION
+		this.rootFolder = process.env.PROJECT_ROOT_FOLDER
 	}
 
 	getS3ArchivePath (appName, device, env) {
