@@ -1,9 +1,10 @@
 # Use an official Node.js runtime as a parent image
 FROM node:latest
 
-# Install zip utility and curl
+# Install zip + unzip + curl
 RUN apt-get update && apt-get install -y \
     zip \
+    unzip \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
