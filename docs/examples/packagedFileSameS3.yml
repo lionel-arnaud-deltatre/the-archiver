@@ -1,0 +1,86 @@
+
+name: "Deployment for Android"
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Select environment"
+        type: choice
+        required: true
+        options:
+          - "test"
+          - "staging"
+          - "prod"
+      choice1:
+        description: "Choice 1 ?"
+        type: boolean
+        default: false
+        required: true
+      choice2:
+        description: "Choice 2 ?"
+        type: boolean
+        default: false
+        required: true
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: "Checkout trunk 🥦"
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.ARCHIVER_PAT }}
+
+      - name: extract version from .env
+        run: |
+          cat .env
+          SEMVER_VERSION=$(grep 'APP_VERSION' .env | cut -d '=' -f2)
+          echo "SEMVER_VERSION=$SEMVER_VERSION" >> $GITHUB_ENV
+
+      - name: confirm Semver Version
+        run: echo "The semver version is $SEMVER_VERSION"
+
+      - name: "Use Node.js v20.10.0 🍜"
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.10.0
+
+      - name: "Install dependencies 🧂"
+        run: |
+          npm i
+
+      - name: "Build ${{ github.event.inputs.environment }} 👷"
+        run: |
+          npm run build:android:${{ github.event.inputs.environment }}
+
+      - name: Archive APK
+        id: archivefile
+        uses: <soterus-action-path>
+        with:
+          actionType: "store-file-with-download"
+          version: ${{ env.SEMVER_VERSION }}
+          appName: "myrepo"
+          deviceType: "android"
+          environment: "${{ github.event.inputs.environment }}"
+          filePath: "dist/*.apk"
+        env:
+          ARCHIVER_AWS_ACCESS_KEY_ID: ${{ secrets.PROJECT_AWS_ACCESS_KEY_ID }}
+          ARCHIVER_AWS_SECRET_ACCESS_KEY: ${{ secrets.PROJECT_AWS_SECRET_ACCESS_KEY }}
+          ARCHIVER_BUCKET_NAME: ${{ vars.PROJECT_AWS_BUCKET_NAME }}
+          ARCHIVER_S3_REGION: ${{ vars.PROJECT_S3_REGION }}
+          ARCHIVER_ROOT_FOLDER: ${{ vars.ARCHIVER_ROOT_FOLDER }}
+
+          GITHUB_TOKEN: ${{ secrets.ARCHIVER_PAT }}
+
+      - name: Check Deployment Output
+        if: failure() # Conditional to check if the previous step failed
+        run: |
+          echo "Action failed with error: ${{ steps.archivefolder.outputs.errorMessage }}"
+          exit 1
+
+      - name: "Following action"
+        run: |
+          echo "Following action"
