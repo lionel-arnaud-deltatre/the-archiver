@@ -1,33 +1,11 @@
 # soterius-the-archiver
 
-## Origin of Soterius
-`Soterius originates from Indo – Greek mythology. Soter (Σωτήρ “Saviour, Deliverer”) was the personification or daimon of safety, preservation and deliverance from harm.`
+Soterius will help you archiving your builds in S3 and retrieve these builds anytime (like appCenter).
+The main feature is to provide rollback possibility for hosted apps.
 
-This is the current name of the tool, but can be changed in the .env-sample
+Soterus will create the rollback workflow for you after each deployment and push it to yoru repo.
 
-This tools can be invoked through different actions set in GH actions:
-When calling this action, you can specify the `actionType` which will tell the tool what to do.
+The rollback worflow will not only provide you the zipped build you selected, but will also redploy the build to S3.
+(like Octopus)
 
-Each `actionType` comes with a "signature" (variables and env vars), check the docs folder to know more
-
-Example
-  - name: Archive folder and Upload to S3
-    id: archivefolder
-    uses: lionel-arnaud-deltatre/the-archiver@main
-    with:
-        actionType: "store-folder"
-        version: ${{ env.SEMVER_VERSION }}
-        appName: "myrepo"
-        deviceType: "${{ github.event.inputs.device }}"
-        environment: "${{ github.event.inputs.environment }}"
-        folderPath: "dist"
-    env:
-        ARCHIVER_AWS_ACCESS_KEY_ID: ${{ secrets.PROJECT_AWS_ACCESS_KEY_ID }}
-        ARCHIVER_AWS_SECRET_ACCESS_KEY: ${{ secrets.PROJECT_AWS_SECRET_ACCESS_KEY }}
-        ARCHIVER_BUCKET_NAME: ${{ vars.PROJECT_BUCKET_NAME }}
-        ARCHIVER_S3_REGION: ${{ vars.PROJECT_S3_REGION }}
-
-
-## why use Docker
-to avoid installing the dependencies of the action in the project repo calling the action
-
+See docs folder for more details and how to implement it
