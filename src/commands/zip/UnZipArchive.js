@@ -11,7 +11,7 @@ class UnZipArchive {
 			return false
 		}
 
-        FileUtil.ensureDirSync(outputFolder);
+		FileUtil.ensureDirSync(outputFolder);
         
 		const unzipScript = path.join(__dirname, '../../../resource/unzip_archive.sh')
 

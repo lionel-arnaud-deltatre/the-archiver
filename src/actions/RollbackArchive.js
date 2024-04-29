@@ -21,8 +21,8 @@ class RollbackArchive {
 			params.version
 		)
 
-        // WARNING: you need to call this action after FetchArchive
-        const rootDist = path.join(process.env.GITHUB_WORKSPACE, 'dist')
+		// WARNING: you need to call this action after FetchArchive
+		const rootDist = path.join(process.env.GITHUB_WORKSPACE, 'dist')
 		this.archiveFile = path.join(rootDist, this.archiveName)
 		this.unzippedFolder = path.join(rootDist, 'unzipped')
 	}
@@ -33,39 +33,39 @@ class RollbackArchive {
 	}
 
 	async unzipArchive () {
-        const unzip = new UnZipArchive();
-        return await unzip.execute(this.archiveFile, this.unzippedFolder);
+		const unzip = new UnZipArchive();
+		return await unzip.execute(this.archiveFile, this.unzippedFolder);
 	}
 
-    async copyLocalToS3 () {
-        const rbCmd = new AWSRollbackArchive()
+	async copyLocalToS3 () {
+		const rbCmd = new AWSRollbackArchive()
 		return await rbCmd.execute( this.unzippedFolder );
 	}
 
-    invalidAction()
-    {
-        let invalid = false;
-        const zipAvailable = fs.existsSync(this.archiveFile)
-        if (!zipAvailable) {
-            core.setFailed('Archive file is not available', this.archiveFile)
-            invalid = true
-        }
+	invalidAction()
+	{
+		let invalid = false;
+		const zipAvailable = fs.existsSync(this.archiveFile)
+		if (!zipAvailable) {
+			core.setFailed('Archive file is not available', this.archiveFile)
+			invalid = true
+		}
 
-        return invalid
-    }
+		return invalid
+	}
     
 	async execute () {
-        if (this.invalidAction())
-        {
-            console.error('cancelling action, something went wrong')
-            return;
-        }        
+		if (this.invalidAction())
+		{
+			console.error('cancelling action, something went wrong')
+			return;
+		}        
 
-        console.log('executing rollback')
-        const unzipped = await this.unzipArchive();
-        console.log(' - unzipped ? ', unzipped)
-        const replaced = await this.copyLocalToS3();
-        console.log(' - s3 replaced ? ', replaced)
+		console.log('executing rollback')
+		const unzipped = await this.unzipArchive();
+		console.log(' - unzipped ? ', unzipped)
+		const replaced = await this.copyLocalToS3();
+		console.log(' - s3 replaced ? ', replaced)
 	}
 }
 

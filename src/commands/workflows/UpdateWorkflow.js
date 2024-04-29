@@ -11,8 +11,8 @@ class UpdateWorkflow {
 		let template = '';
 		let wf_prefix = '';
 		switch (this.mode) {
-            case "rollback": template = '.rollback-template'; wf_prefix = 'rollback'; break;
-            case "download": template = '.download-template'; wf_prefix = 'download'; break;
+		case "rollback": template = '.rollback-template'; wf_prefix = 'rollback'; break;
+		case "download": template = '.download-template'; wf_prefix = 'download'; break;
 		}
 		return {
 			srcFile: path.join(__dirname, '../../../resource/', template),
@@ -43,14 +43,14 @@ class UpdateWorkflow {
 				['<project_secret>', process.env.PROJECT_AWS_SECRET_ACCESS_KEY_SEC]
 			]
 
-            if (this.mode === "rollback") {
-                const downloadReplacements = [
-                    ['<project_bucketname>', process.env.PROJECT_BUCKET_NAME],
-                    ['<project_s3region>', process.env.PROJECT_S3_REGION],
-                    ['<project_rootfolder>', process.env.PROJECT_ROOT_FOLDER]
-                ]
-                replacements = replacements.concat(downloadReplacements);
-            }
+			if (this.mode === "rollback") {
+				const downloadReplacements = [
+					['<project_bucketname>', process.env.PROJECT_BUCKET_NAME],
+					['<project_s3region>', process.env.PROJECT_S3_REGION],
+					['<project_rootfolder>', process.env.PROJECT_ROOT_FOLDER]
+				]
+				replacements = replacements.concat(downloadReplacements);
+			}
 
 			const result = this.replaceAll(data, replacements)
 			fs.writeFileSync(config.destFile, result)

@@ -15,8 +15,8 @@ class StoreToVault {
 	constructor (params, mode, isFile = false) {
 		this.params = params
 		this.mode = mode
-        this.isFile = isFile
-        this.srcContent = isFile ? this.params.filePath : this.params.folderPath
+		this.isFile = isFile
+		this.srcContent = isFile ? this.params.filePath : this.params.folderPath
 
 		const filename = ArchiveUtil.getArchiveName(
 			params.appName,
@@ -68,22 +68,22 @@ class StoreToVault {
 		return await changes.execute()
 	}
 
-    invalidAction()
-    {
-        let invalid = false;
-        if (!this.isFile && !fs.existsSync(this.srcContent)) {
-            core.setFailed('source is invalid: ' + this.srcContent)
+	invalidAction()
+	{
+		let invalid = false;
+		if (!this.isFile && !fs.existsSync(this.srcContent)) {
+			core.setFailed('source is invalid: ' + this.srcContent)
 			invalid = true
 		}
-        return invalid
-    }
+		return invalid
+	}
 
 	async execute () {
-        if (this.invalidAction())
-        {
-            console.error('cancelling action, something went wrong')
-            return;
-        }
+		if (this.invalidAction())
+		{
+			console.error('cancelling action, something went wrong')
+			return;
+		}
 
 		console.log('Step 1 - zip content', this.srcContent, 'to', this.archivePath)
 		const zipped = await this.zip()
